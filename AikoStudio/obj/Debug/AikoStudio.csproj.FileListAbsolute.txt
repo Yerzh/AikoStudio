@@ -1,0 +1,23 @@
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.exe.config
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.exe
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.pdb
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.csprojResolveAssemblyReference.cache
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Form1.resources
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Properties.Resources.resources
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.csproj.GenerateResource.Cache
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.exe
+c:\users\ysalk\onedrive\документы\visual studio 2015\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.pdb
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.exe.config
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.exe
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.pdb
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.exe
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\AikoStudio.pdb
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\EntityFramework.dll
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\EntityFramework.xml
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.csprojResolveAssemblyReference.cache
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Form1.resources
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Properties.Resources.resources
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.csproj.GenerateResource.Cache
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\ru\EntityFramework.resources.dll

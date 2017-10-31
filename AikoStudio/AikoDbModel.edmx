@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AikoDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LongName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupOfStudents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecialtyId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="Contingent" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Semester" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoadCalculation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="SubjectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LongName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="LectureQty" Type="int" Nullable="false" />
+          <Property Name="SeminarQty" Type="int" Nullable="false" />
+          <Property Name="LaboratoryQty" Type="int" Nullable="false" />
+          <Property Name="LectureCreditQty" Type="int" Nullable="false" />
+          <Property Name="SeminarCreditQty" Type="int" Nullable="false" />
+          <Property Name="LaboratoryCreditQty" Type="int" Nullable="false" />
+          <Property Name="OtherCreditQty" Type="int" Nullable="false" />
+          <Property Name="AllCreditQty" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupOfStudents">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_group">
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="1" />
+          <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupOfStudents">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoadCalculation">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_specialty">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupOfStudents">
+              <PropertyRef Name="SpecialtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoadCalculation">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AikoDbModelContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoadCalculation" EntityType="Self.LoadCalculation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_department" Association="Self.FK_department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_group" Association="Self.FK_group">
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+            <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subject" Association="Self.FK_subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AikoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LongName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupOfStudents" Relationship="Self.FK_department" FromRole="Department" ToRole="GroupOfStudents" />
+        </EntityType>
+        <EntityType Name="GroupOfStudents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecialtyId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="Contingent" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Semester" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_department" FromRole="GroupOfStudents" ToRole="Department" />
+          <NavigationProperty Name="LoadCalculation" Relationship="Self.FK_group" FromRole="GroupOfStudents" ToRole="LoadCalculation" />
+          <NavigationProperty Name="Specialty" Relationship="Self.FK_specialty" FromRole="GroupOfStudents" ToRole="Specialty" />
+        </EntityType>
+        <EntityType Name="LoadCalculation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GroupOfStudents" Relationship="Self.FK_group" FromRole="LoadCalculation" ToRole="GroupOfStudents" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_subject" FromRole="LoadCalculation" ToRole="Subject" />
+        </EntityType>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LongName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupOfStudents" Relationship="Self.FK_specialty" FromRole="Specialty" ToRole="GroupOfStudents" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LectureQty" Type="Int32" Nullable="false" />
+          <Property Name="SeminarQty" Type="Int32" Nullable="false" />
+          <Property Name="LaboratoryQty" Type="Int32" Nullable="false" />
+          <Property Name="LectureCreditQty" Type="Int32" Nullable="false" />
+          <Property Name="SeminarCreditQty" Type="Int32" Nullable="false" />
+          <Property Name="LaboratoryCreditQty" Type="Int32" Nullable="false" />
+          <Property Name="OtherCreditQty" Type="Int32" Nullable="false" />
+          <Property Name="AllCreditQty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LoadCalculation" Relationship="Self.FK_subject" FromRole="Subject" ToRole="LoadCalculation" />
+        </EntityType>
+        <Association Name="FK_department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupOfStudents">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_group">
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="1" />
+          <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupOfStudents">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoadCalculation">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_specialty">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+          <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupOfStudents">
+              <PropertyRef Name="SpecialtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoadCalculation">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AikoDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Department" EntityType="Self.Department" />
+          <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" />
+          <EntitySet Name="LoadCalculation" EntityType="Self.LoadCalculation" />
+          <EntitySet Name="Specialty" EntityType="Self.Specialty" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" />
+          <AssociationSet Name="FK_department" Association="Self.FK_department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_group" Association="Self.FK_group">
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+            <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_subject" Association="Self.FK_subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AikoDbModelContainer" CdmEntityContainer="AikoDbEntities">
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="AikoDbModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LongName" ColumnName="LongName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupOfStudents">
+            <EntityTypeMapping TypeName="AikoDbModel.GroupOfStudents">
+              <MappingFragment StoreEntitySet="GroupOfStudents">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Contingent" ColumnName="Contingent" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadCalculation">
+            <EntityTypeMapping TypeName="AikoDbModel.LoadCalculation">
+              <MappingFragment StoreEntitySet="LoadCalculation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialty">
+            <EntityTypeMapping TypeName="AikoDbModel.Specialty">
+              <MappingFragment StoreEntitySet="Specialty">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="LongName" ColumnName="LongName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject">
+            <EntityTypeMapping TypeName="AikoDbModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LectureQty" ColumnName="LectureQty" />
+                <ScalarProperty Name="SeminarQty" ColumnName="SeminarQty" />
+                <ScalarProperty Name="LaboratoryQty" ColumnName="LaboratoryQty" />
+                <ScalarProperty Name="LectureCreditQty" ColumnName="LectureCreditQty" />
+                <ScalarProperty Name="SeminarCreditQty" ColumnName="SeminarCreditQty" />
+                <ScalarProperty Name="LaboratoryCreditQty" ColumnName="LaboratoryCreditQty" />
+                <ScalarProperty Name="OtherCreditQty" ColumnName="OtherCreditQty" />
+                <ScalarProperty Name="AllCreditQty" ColumnName="AllCreditQty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
