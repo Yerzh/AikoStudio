@@ -25,19 +25,6 @@ namespace AikoStudio
 
         private void SetOtherColumnDataSource()
         {
-            //select spec.Code, spec.LongName, sub.Name, d.LongName, g.Year, g.Semester, g.Contingent, sub.LectureQty, 
-            //    sub.SeminarQty, sub.LaboratoryQty, sub.LectureCreditQty, sub.SeminarCreditQty, sub.LaboratoryCreditQty, 
-            //    sub.OtherCreditQty, sub.AllCreditQty
-            //  from LoadCalculation ld
-            //    inner join Subject sub
-            //      on ld.SubjectId = sub.Id
-            //      inner join GroupOfStudents g
-            //        on g.Id = ld.GroupId
-            //        inner join Specialty spec
-            //          on spec.Id = g.SpecialtyId
-            //          inner join Department d
-            //            on d.Id = g.DepartmentId
-
             var query = from ld in context.LoadCalculations
                         join sub in context.Subjects
                           on ld.SubjectId equals sub.Id
@@ -263,6 +250,8 @@ namespace AikoStudio
                 }
 
                 context.SaveChanges();
+
+                dataGridView1.AllowUserToAddRows = true;
             }
         }
     }
