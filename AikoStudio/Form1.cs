@@ -9,21 +9,99 @@ namespace AikoStudio
 {
     public partial class Form1 : Form
     {
-        public AikoDbEntities context = new AikoDbEntities();
+        private AikoDbEntities context;
+        private DataTable gridCache;
 
         public Form1()
         {
             InitializeComponent();
+
+            context = new AikoDbEntities();
+            initGridCache();
+        }
+
+        private void initGridCache()
+        {
+            gridCache = new DataTable();
+            DataColumn idColumn = new DataColumn("GridId", typeof(int));
+            idColumn.Unique = true; // столбец будет иметь уникальное значение
+            idColumn.AllowDBNull = false; // не может принимать null
+            idColumn.AutoIncrement = true; // будет автоинкрементироваться
+            idColumn.AutoIncrementSeed = 1; // начальное значение
+            idColumn.AutoIncrementStep = 1;
+            gridCache.Columns.Add(idColumn);
+            gridCache.Columns.Add("SpecialtyId", typeof(int));
+            gridCache.Columns.Add("SpecialityName", typeof(string));
+            gridCache.Columns.Add("SubjectId", typeof(int));
+            gridCache.Columns.Add("SubjectName", typeof(string));
+            gridCache.Columns.Add("DepartmentId", typeof(int));
+            gridCache.Columns.Add("DepartmentName", typeof(string));
+            gridCache.Columns.Add("Year", typeof(int));
+            gridCache.Columns.Add("Semester", typeof(int));
+            gridCache.Columns.Add("Contingent", typeof(int));
+            gridCache.Columns.Add("LectureQty", typeof(float));
+            gridCache.Columns.Add("SeminarQty", typeof(float));
+            gridCache.Columns.Add("LaboratoryQty", typeof(float));
+            gridCache.Columns.Add("LectureCreditQty", typeof(float));
+            gridCache.Columns.Add("SeminarCreditQty", typeof(float));
+            gridCache.Columns.Add("LaboratoryCreditQty", typeof(float));
+            gridCache.Columns.Add("OtherCreditQty", typeof(float));
+            gridCache.Columns.Add("AllCreditQty", typeof(float));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             SetSpecialityColumnDataSource();
             SetDepartmentColumnDataSource();
-            SetOtherColumnDataSource();
+            //SetOtherColumnDataSource();
         }
 
-        private void SetOtherColumnDataSource()
+        private void fillCache()
+        {
+            var query = from g in context.GroupOfStudents
+                        join spec in context.Specialties
+                          on g.SpecialtyId equals spec.Id
+                        join d in context.Departments
+                          on g.DepartmentId equals d.Id
+                        select new
+                        {
+                            g.SpecialtyId,
+                            g.DepartmentId,
+                            g.Id,
+                            g.Year,
+                            g.Semester,
+                            g.Contingent
+                        };
+
+
+            /*var query = from sub in context.Subjects
+                        join g in context.GroupOfStudents
+                          on sub. equals g.Id
+                        join spec in context.Specialties
+                          on g.SpecialtyId equals spec.Id
+                        join d in context.Departments
+                          on g.DepartmentId equals d.Id
+                        orderby ld.Id ascending
+                        select new
+                        {
+                            g.SpecialtyId,
+                            sub.Name,
+                            g.DepartmentId,
+                            g.Year,
+                            g.Semester,
+                            g.Contingent,
+                            sub.LectureQty,
+                            sub.SeminarQty,
+                            sub.LaboratoryQty,
+                            sub.LectureCreditQty,
+                            sub.SeminarCreditQty,
+                            sub.LaboratoryCreditQty,
+                            sub.OtherCreditQty,
+                            sub.AllCreditQty
+                        };*/
+        }
+
+        /*private void SetOtherColumnDataSource()
         {
             var query = from ld in context.LoadCalculations
                         join sub in context.Subjects
@@ -74,16 +152,12 @@ namespace AikoStudio
                 i++;
             }
             dataGridView1.Update();
-        }
+        }*/
 
         private void SetSpecialityColumnDataSource()
         {
-            var query = from spec in context.Specialties
-                        orderby spec.Id
-                        select spec;
-
             DataTable table = new DataTable();
-            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+            //table.Locale = System.Globalization.CultureInfo.InvariantCulture;
             table.Columns.Add(new DataColumn() {
                     DataType = Type.GetType("System.String"),
                     ColumnName = "SpecialtyId"
@@ -95,11 +169,13 @@ namespace AikoStudio
                 } 
             );
 
-            foreach (var element in query)
+            foreach (var element in from spec in context.Specialties
+                                     orderby spec.Id
+                                     select spec)
             {
                 var row = table.NewRow();
                 row["SpecialtyId"] = element.Id;
-                row["SpecialityDisplayName"] = element.Code + ", " + element.LongName;
+                row["SpecialityDisplayName"] = element.Code + "," + element.LongName;
                 table.Rows.Add(row);
             }
 
@@ -110,10 +186,6 @@ namespace AikoStudio
         
         private void SetDepartmentColumnDataSource()
         {
-            var query = from dep in context.Departments
-                        orderby dep.Id
-                        select dep;
-
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
             table.Columns.Add( 
@@ -127,24 +199,26 @@ namespace AikoStudio
                 new DataColumn()
                 {
                     DataType = Type.GetType("System.String"),
-                    ColumnName = "DepartmentName"
+                    ColumnName = "DepartmentDisplayName"
                 }
             );
 
-            foreach (var element in query)
+            foreach (var element in from dep in context.Departments
+                                    orderby dep.Id
+                                    select dep)
             {
                 var row = table.NewRow();
                 row["DepartmentId"] = element.Id;
-                row["DepartmentName"] = element.LongName;
+                row["DepartmentDisplayName"] = element.LongName;
                 table.Rows.Add(row);
             }
 
             this.DepartmentCol.DataSource = table;
             this.DepartmentCol.ValueMember = table.Columns["DepartmentId"].ColumnName;
-            this.DepartmentCol.DisplayMember = table.Columns["DepartmentName"].ColumnName;
+            this.DepartmentCol.DisplayMember = table.Columns["DepartmentDisplayName"].ColumnName;
         }
 
-        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        /*private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView1.AllowUserToAddRows = false; // helps to get rid of last empty row
 
@@ -253,6 +327,6 @@ namespace AikoStudio
 
                 dataGridView1.AllowUserToAddRows = true;
             }
-        }
+        }*/
     }
 }

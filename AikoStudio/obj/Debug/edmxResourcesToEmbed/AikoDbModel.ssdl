@@ -19,11 +19,11 @@
     <Property Name="Year" Type="int" Nullable="false" />
     <Property Name="Semester" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="LoadCalculation">
+  <EntityType Name="GroupSubject">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="GroupId" />
+      <PropertyRef Name="SubjectId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GroupId" Type="int" Nullable="false" />
     <Property Name="SubjectId" Type="int" Nullable="false" />
   </EntityType>
@@ -65,12 +65,12 @@
   </Association>
   <Association Name="FK_group">
     <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="1" />
-    <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="GroupOfStudents">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="LoadCalculation">
+      <Dependent Role="GroupSubject">
         <PropertyRef Name="GroupId" />
       </Dependent>
     </ReferentialConstraint>
@@ -89,12 +89,12 @@
   </Association>
   <Association Name="FK_subject">
     <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
-    <End Role="LoadCalculation" Type="Self.LoadCalculation" Multiplicity="*" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Subject">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="LoadCalculation">
+      <Dependent Role="GroupSubject">
         <PropertyRef Name="SubjectId" />
       </Dependent>
     </ReferentialConstraint>
@@ -102,7 +102,7 @@
   <EntityContainer Name="Хранилище AikoDbModelContainer">
     <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="LoadCalculation" EntityType="Self.LoadCalculation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupSubject" EntityType="Self.GroupSubject" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_department" Association="Self.FK_department">
@@ -111,7 +111,7 @@
     </AssociationSet>
     <AssociationSet Name="FK_group" Association="Self.FK_group">
       <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
-      <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
     </AssociationSet>
     <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
       <End Role="Specialty" EntitySet="Specialty" />
@@ -119,7 +119,7 @@
     </AssociationSet>
     <AssociationSet Name="FK_subject" Association="Self.FK_subject">
       <End Role="Subject" EntitySet="Subject" />
-      <End Role="LoadCalculation" EntitySet="LoadCalculation" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
