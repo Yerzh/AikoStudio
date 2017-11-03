@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище AikoDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LongName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupOfStudents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SpecialtyId" Type="int" Nullable="false" />
+    <Property Name="DepartmentId" Type="int" Nullable="false" />
+    <Property Name="Contingent" Type="int" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Semester" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupSubject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="SubjectId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Specialty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LongName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="LectureQty" Type="int" Nullable="false" />
+    <Property Name="SeminarQty" Type="int" Nullable="false" />
+    <Property Name="LaboratoryQty" Type="int" Nullable="false" />
+    <Property Name="LectureCreditQty" Type="int" Nullable="false" />
+    <Property Name="SeminarCreditQty" Type="int" Nullable="false" />
+    <Property Name="LaboratoryCreditQty" Type="int" Nullable="false" />
+    <Property Name="OtherCreditQty" Type="int" Nullable="false" />
+    <Property Name="AllCreditQty" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_department">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupOfStudents">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_group">
+    <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="1" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupOfStudents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupSubject">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_specialty">
+    <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+    <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupOfStudents">
+        <PropertyRef Name="SpecialtyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupSubject">
+        <PropertyRef Name="SubjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище AikoDbModelContainer">
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupSubject" EntityType="Self.GroupSubject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_department" Association="Self.FK_department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_group" Association="Self.FK_group">
+      <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
+      <End Role="Specialty" EntitySet="Specialty" />
+      <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject" Association="Self.FK_subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

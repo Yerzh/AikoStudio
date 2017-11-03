@@ -27,6 +27,7 @@ namespace AikoStudio
     
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<GroupOfStudents> GroupOfStudents { get; set; }
+        public virtual DbSet<GroupSubject> GroupSubjects { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
     }

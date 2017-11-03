@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище AikoDbModelContainer" CdmEntityContainer="AikoDbEntities">
+    <EntitySetMapping Name="Department">
+      <EntityTypeMapping TypeName="AikoDbModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LongName" ColumnName="LongName" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupOfStudents">
+      <EntityTypeMapping TypeName="AikoDbModel.GroupOfStudents">
+        <MappingFragment StoreEntitySet="GroupOfStudents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="Contingent" ColumnName="Contingent" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Semester" ColumnName="Semester" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupSubject">
+      <EntityTypeMapping TypeName="AikoDbModel.GroupSubject">
+        <MappingFragment StoreEntitySet="GroupSubject">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specialty">
+      <EntityTypeMapping TypeName="AikoDbModel.Specialty">
+        <MappingFragment StoreEntitySet="Specialty">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="LongName" ColumnName="LongName" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject">
+      <EntityTypeMapping TypeName="AikoDbModel.Subject">
+        <MappingFragment StoreEntitySet="Subject">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LectureQty" ColumnName="LectureQty" />
+          <ScalarProperty Name="SeminarQty" ColumnName="SeminarQty" />
+          <ScalarProperty Name="LaboratoryQty" ColumnName="LaboratoryQty" />
+          <ScalarProperty Name="LectureCreditQty" ColumnName="LectureCreditQty" />
+          <ScalarProperty Name="SeminarCreditQty" ColumnName="SeminarCreditQty" />
+          <ScalarProperty Name="LaboratoryCreditQty" ColumnName="LaboratoryCreditQty" />
+          <ScalarProperty Name="OtherCreditQty" ColumnName="OtherCreditQty" />
+          <ScalarProperty Name="AllCreditQty" ColumnName="AllCreditQty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

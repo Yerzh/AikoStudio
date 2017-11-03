@@ -10,43 +10,45 @@ namespace AikoStudio
     public partial class Form1 : Form
     {
         private AikoDbEntities context;
-        private DataTable gridCache;
+        private DataTable cache;
 
         public Form1()
         {
             InitializeComponent();
 
             context = new AikoDbEntities();
-            initGridCache();
+            initCache();
         }
 
-        private void initGridCache()
+        private void initCache()
         {
-            gridCache = new DataTable();
-            DataColumn idColumn = new DataColumn("GridId", typeof(int));
+            cache = new DataTable();
+            DataColumn idColumn = new DataColumn("Id", typeof(int));
             idColumn.Unique = true; // столбец будет иметь уникальное значение
             idColumn.AllowDBNull = false; // не может принимать null
             idColumn.AutoIncrement = true; // будет автоинкрементироваться
             idColumn.AutoIncrementSeed = 1; // начальное значение
             idColumn.AutoIncrementStep = 1;
-            gridCache.Columns.Add(idColumn);
-            gridCache.Columns.Add("SpecialtyId", typeof(int));
-            gridCache.Columns.Add("SpecialityName", typeof(string));
-            gridCache.Columns.Add("SubjectId", typeof(int));
-            gridCache.Columns.Add("SubjectName", typeof(string));
-            gridCache.Columns.Add("DepartmentId", typeof(int));
-            gridCache.Columns.Add("DepartmentName", typeof(string));
-            gridCache.Columns.Add("Year", typeof(int));
-            gridCache.Columns.Add("Semester", typeof(int));
-            gridCache.Columns.Add("Contingent", typeof(int));
-            gridCache.Columns.Add("LectureQty", typeof(float));
-            gridCache.Columns.Add("SeminarQty", typeof(float));
-            gridCache.Columns.Add("LaboratoryQty", typeof(float));
-            gridCache.Columns.Add("LectureCreditQty", typeof(float));
-            gridCache.Columns.Add("SeminarCreditQty", typeof(float));
-            gridCache.Columns.Add("LaboratoryCreditQty", typeof(float));
-            gridCache.Columns.Add("OtherCreditQty", typeof(float));
-            gridCache.Columns.Add("AllCreditQty", typeof(float));
+            cache.PrimaryKey = new DataColumn[] { cache.Columns["Id"] };
+            cache.Columns.Add(idColumn);
+            cache.Columns.Add("GroupSubjectId", typeof(int));
+            cache.Columns.Add("SpecialtyId", typeof(int));
+            cache.Columns.Add("SpecialityName", typeof(string));
+            cache.Columns.Add("SubjectId", typeof(int));
+            cache.Columns.Add("SubjectName", typeof(string));
+            cache.Columns.Add("DepartmentId", typeof(int));
+            cache.Columns.Add("DepartmentName", typeof(string));
+            cache.Columns.Add("Year", typeof(int));
+            cache.Columns.Add("Semester", typeof(int));
+            cache.Columns.Add("Contingent", typeof(int));
+            cache.Columns.Add("LectureQty", typeof(float));
+            cache.Columns.Add("SeminarQty", typeof(float));
+            cache.Columns.Add("LaboratoryQty", typeof(float));
+            cache.Columns.Add("LectureCreditQty", typeof(float));
+            cache.Columns.Add("SeminarCreditQty", typeof(float));
+            cache.Columns.Add("LaboratoryCreditQty", typeof(float));
+            cache.Columns.Add("OtherCreditQty", typeof(float));
+            cache.Columns.Add("AllCreditQty", typeof(float));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,51 +56,107 @@ namespace AikoStudio
             SetSpecialityColumnDataSource();
             SetDepartmentColumnDataSource();
             //SetOtherColumnDataSource();
+            populateCache();
+            populateDataGridView();
         }
 
-        private void fillCache()
+        private void populateCache()
         {
-            var query = from g in context.GroupOfStudents
+            var query = from gs in context.GroupSubjects
+                        join g in context.GroupOfStudents
+                             on gs.GroupId equals g.Id
+                        join sub in context.Subjects
+                            on gs.SubjectId equals sub.Id
                         join spec in context.Specialties
-                          on g.SpecialtyId equals spec.Id
-                        join d in context.Departments
-                          on g.DepartmentId equals d.Id
+                            on g.SpecialtyId equals spec.Id
+                        join dep in context.Departments
+                            on g.DepartmentId equals dep.Id
+                        orderby gs.Id
                         select new
                         {
-                            g.SpecialtyId,
-                            g.DepartmentId,
-                            g.Id,
-                            g.Year,
-                            g.Semester,
-                            g.Contingent
+                            GroupSubjectId = gs.Id,
+                            SpecialtyId = spec.Id,
+                            SpecialityName = spec.Code + "," + spec.LongName,
+                            SubjectId = sub.Id,
+                            SubjectName = sub.Name,
+                            DepartmentId = dep.Id,
+                            DepartmentName = dep.LongName,
+                            Year = g.Year,
+                            Semester = g.Semester,
+                            Contingent = g.Contingent,
+                            LectureQty = sub.LectureQty,
+                            SeminarQty = sub.SeminarQty,
+                            LaboratoryQty = sub.LaboratoryQty,
+                            LectureCreditQty = sub.LectureCreditQty,
+                            SeminarCreditQty = sub.SeminarCreditQty,
+                            LaboratoryCreditQty = sub.LaboratoryCreditQty,
+                            OtherCreditQty = sub.OtherCreditQty,
+                            AllCreditQty = sub.AllCreditQty
                         };
 
+            foreach (var item in query)
+            {
+                DataRow row = cache.NewRow();
+                row.ItemArray = new object[]
+                {
+                    null,
+                    item.GroupSubjectId,
+                    item.SpecialtyId,
+                    item.SpecialityName,
+                    item.SubjectId,
+                    item.SubjectName,
+                    item.DepartmentId,
+                    item.DepartmentName,
+                    item.Year,
+                    item.Semester,
+                    item.Contingent,
+                    item.LectureQty,
+                    item.SeminarQty,
+                    item.LaboratoryQty,
+                    item.LectureCreditQty,
+                    item.SeminarCreditQty,
+                    item.LaboratoryCreditQty,
+                    item.OtherCreditQty,
+                    item.AllCreditQty
+                };
+                cache.Rows.Add(row);
+            }
 
-            /*var query = from sub in context.Subjects
-                        join g in context.GroupOfStudents
-                          on sub. equals g.Id
-                        join spec in context.Specialties
-                          on g.SpecialtyId equals spec.Id
-                        join d in context.Departments
-                          on g.DepartmentId equals d.Id
-                        orderby ld.Id ascending
-                        select new
-                        {
-                            g.SpecialtyId,
-                            sub.Name,
-                            g.DepartmentId,
-                            g.Year,
-                            g.Semester,
-                            g.Contingent,
-                            sub.LectureQty,
-                            sub.SeminarQty,
-                            sub.LaboratoryQty,
-                            sub.LectureCreditQty,
-                            sub.SeminarCreditQty,
-                            sub.LaboratoryCreditQty,
-                            sub.OtherCreditQty,
-                            sub.AllCreditQty
-                        };*/
+            foreach (DataRow r in cache.Rows)
+            {
+                foreach (var cell in r.ItemArray)
+                    Console.Write("\t{0}", cell);
+                Console.WriteLine();
+            }
+        }
+
+        private void populateDataGridView()
+        {
+            if (cache == null)
+                throw new NullReferenceException("Кэш не может быть null");
+
+            dataGridView1.Rows.Clear();
+            foreach (DataRow r in cache.Rows)
+            {
+                object[] objs = r.ItemArray;
+                int newRowIndex = dataGridView1.Rows.Add();
+                dataGridView1.Rows[newRowIndex].Cells[0].Value = objs[0];
+                dataGridView1.Rows[newRowIndex].Cells[1].Value = objs[2];
+                dataGridView1.Rows[newRowIndex].Cells[2].Value = objs[5];
+                dataGridView1.Rows[newRowIndex].Cells[3].Value = objs[6];
+                dataGridView1.Rows[newRowIndex].Cells[4].Value = objs[8];
+                dataGridView1.Rows[newRowIndex].Cells[5].Value = objs[9];
+                dataGridView1.Rows[newRowIndex].Cells[6].Value = objs[10];
+                dataGridView1.Rows[newRowIndex].Cells[7].Value = objs[11];
+                dataGridView1.Rows[newRowIndex].Cells[8].Value = objs[12];
+                dataGridView1.Rows[newRowIndex].Cells[9].Value = objs[13];
+                dataGridView1.Rows[newRowIndex].Cells[10].Value = objs[14];
+                dataGridView1.Rows[newRowIndex].Cells[11].Value = objs[15];
+                dataGridView1.Rows[newRowIndex].Cells[12].Value = objs[16];
+                dataGridView1.Rows[newRowIndex].Cells[13].Value = objs[17];
+                dataGridView1.Rows[newRowIndex].Cells[14].Value = objs[18];
+            }
+            dataGridView1.Update();
         }
 
         /*private void SetOtherColumnDataSource()
@@ -159,7 +217,7 @@ namespace AikoStudio
             DataTable table = new DataTable();
             //table.Locale = System.Globalization.CultureInfo.InvariantCulture;
             table.Columns.Add(new DataColumn() {
-                    DataType = Type.GetType("System.String"),
+                    DataType = Type.GetType("System.Int32"),
                     ColumnName = "SpecialtyId"
                 }
             );
@@ -191,7 +249,7 @@ namespace AikoStudio
             table.Columns.Add( 
                 new DataColumn()
                 {
-                    DataType = Type.GetType("System.String"),
+                    DataType = Type.GetType("System.Int32"),
                     ColumnName = "DepartmentId"
                 }
             );

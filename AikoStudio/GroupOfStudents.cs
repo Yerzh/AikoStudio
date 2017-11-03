@@ -17,7 +17,7 @@ namespace AikoStudio
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GroupOfStudents()
         {
-            this.Subject = new HashSet<Subject>();
+            this.GroupSubject = new HashSet<GroupSubject>();
         }
     
         public int Id { get; set; }
@@ -28,8 +28,8 @@ namespace AikoStudio
         public int Semester { get; set; }
     
         public virtual Department Department { get; set; }
-        public virtual Specialty Specialty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Subject> Subject { get; set; }
+        public virtual ICollection<GroupSubject> GroupSubject { get; set; }
+        public virtual Specialty Specialty { get; set; }
     }
 }
