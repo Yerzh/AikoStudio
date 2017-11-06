@@ -25,11 +25,11 @@ namespace AikoStudio
         public int LectureQty { get; set; }
         public int SeminarQty { get; set; }
         public int LaboratoryQty { get; set; }
-        public int LectureCreditQty { get; set; }
-        public int SeminarCreditQty { get; set; }
-        public int LaboratoryCreditQty { get; set; }
-        public int OtherCreditQty { get; set; }
-        public int AllCreditQty { get; set; }
+        public decimal LectureCreditQty { get; set; }
+        public decimal SeminarCreditQty { get; set; }
+        public decimal LaboratoryCreditQty { get; set; }
+        public decimal OtherCreditQty { get; set; }
+        public decimal AllCreditQty { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupSubject> GroupSubject { get; set; }

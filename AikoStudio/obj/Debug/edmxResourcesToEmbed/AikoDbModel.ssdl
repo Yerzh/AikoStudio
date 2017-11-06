@@ -21,9 +21,9 @@
   </EntityType>
   <EntityType Name="GroupSubject">
     <Key>
-      <PropertyRef Name="GroupId" />
-      <PropertyRef Name="SubjectId" />
+      <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GroupId" Type="int" Nullable="false" />
     <Property Name="SubjectId" Type="int" Nullable="false" />
   </EntityType>
@@ -45,11 +45,11 @@
     <Property Name="LectureQty" Type="int" Nullable="false" />
     <Property Name="SeminarQty" Type="int" Nullable="false" />
     <Property Name="LaboratoryQty" Type="int" Nullable="false" />
-    <Property Name="LectureCreditQty" Type="int" Nullable="false" />
-    <Property Name="SeminarCreditQty" Type="int" Nullable="false" />
-    <Property Name="LaboratoryCreditQty" Type="int" Nullable="false" />
-    <Property Name="OtherCreditQty" Type="int" Nullable="false" />
-    <Property Name="AllCreditQty" Type="int" Nullable="false" />
+    <Property Name="LectureCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="SeminarCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="LaboratoryCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="OtherCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AllCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
   </EntityType>
   <Association Name="FK_department">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />

@@ -20,8 +20,18 @@
     <Property Name="Year" Type="Int32" Nullable="false" />
     <Property Name="Semester" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Department" Relationship="Self.FK_department" FromRole="GroupOfStudents" ToRole="Department" />
+    <NavigationProperty Name="GroupSubject" Relationship="Self.FK_group" FromRole="GroupOfStudents" ToRole="GroupSubject" />
     <NavigationProperty Name="Specialty" Relationship="Self.FK_specialty" FromRole="GroupOfStudents" ToRole="Specialty" />
-    <NavigationProperty Name="Subject" Relationship="Self.GroupSubject" FromRole="GroupOfStudents" ToRole="Subject" />
+  </EntityType>
+  <EntityType Name="GroupSubject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="SubjectId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GroupOfStudents" Relationship="Self.FK_group" FromRole="GroupSubject" ToRole="GroupOfStudents" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK_subject" FromRole="GroupSubject" ToRole="Subject" />
   </EntityType>
   <EntityType Name="Specialty">
     <Key>
@@ -42,12 +52,12 @@
     <Property Name="LectureQty" Type="Int32" Nullable="false" />
     <Property Name="SeminarQty" Type="Int32" Nullable="false" />
     <Property Name="LaboratoryQty" Type="Int32" Nullable="false" />
-    <Property Name="LectureCreditQty" Type="Int32" Nullable="false" />
-    <Property Name="SeminarCreditQty" Type="Int32" Nullable="false" />
-    <Property Name="LaboratoryCreditQty" Type="Int32" Nullable="false" />
-    <Property Name="OtherCreditQty" Type="Int32" Nullable="false" />
-    <Property Name="AllCreditQty" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="GroupOfStudents" Relationship="Self.GroupSubject" FromRole="Subject" ToRole="GroupOfStudents" />
+    <Property Name="LectureCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="SeminarCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="LaboratoryCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="OtherCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AllCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <NavigationProperty Name="GroupSubject" Relationship="Self.FK_subject" FromRole="Subject" ToRole="GroupSubject" />
   </EntityType>
   <Association Name="FK_department">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
@@ -58,6 +68,18 @@
       </Principal>
       <Dependent Role="GroupOfStudents">
         <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_group">
+    <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="1" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupOfStudents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupSubject">
+        <PropertyRef Name="GroupId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -73,26 +95,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="GroupSubject">
-    <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
-    <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
+  <Association Name="FK_subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupSubject">
+        <PropertyRef Name="SubjectId" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
   <EntityContainer Name="AikoDbEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Department" EntityType="Self.Department" />
     <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" />
+    <EntitySet Name="GroupSubject" EntityType="Self.GroupSubject" />
     <EntitySet Name="Specialty" EntityType="Self.Specialty" />
     <EntitySet Name="Subject" EntityType="Self.Subject" />
     <AssociationSet Name="FK_department" Association="Self.FK_department">
       <End Role="Department" EntitySet="Department" />
       <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
     </AssociationSet>
+    <AssociationSet Name="FK_group" Association="Self.FK_group">
+      <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
+    </AssociationSet>
     <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
       <End Role="Specialty" EntitySet="Specialty" />
       <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
     </AssociationSet>
-    <AssociationSet Name="GroupSubject" Association="Self.GroupSubject">
-      <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
+    <AssociationSet Name="FK_subject" Association="Self.FK_subject">
       <End Role="Subject" EntitySet="Subject" />
+      <End Role="GroupSubject" EntitySet="GroupSubject" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -151,12 +151,12 @@
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
             this.SaveToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.SaveToolStripMenuItem.Text = "Сохранить";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // ID
             // 
             this.ID.HeaderText = "Id";
             this.ID.Name = "ID";
-            this.ID.Visible = false;
             // 
             // SpecialityCol
             // 

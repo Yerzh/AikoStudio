@@ -22,6 +22,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="GroupSubject">
+      <EntityTypeMapping TypeName="AikoDbModel.GroupSubject">
+        <MappingFragment StoreEntitySet="GroupSubject">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Specialty">
       <EntityTypeMapping TypeName="AikoDbModel.Specialty">
         <MappingFragment StoreEntitySet="Specialty">
@@ -48,13 +57,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="GroupSubject" TypeName="AikoDbModel.GroupSubject" StoreEntitySet="GroupSubject">
-      <EndProperty Name="GroupOfStudents">
-        <ScalarProperty Name="Id" ColumnName="GroupId" />
-      </EndProperty>
-      <EndProperty Name="Subject">
-        <ScalarProperty Name="Id" ColumnName="SubjectId" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>
