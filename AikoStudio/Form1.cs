@@ -93,6 +93,8 @@ namespace AikoStudio
                             AllCreditQty = sub.AllCreditQty
                         };
 
+            cache.Clear();
+
             foreach (var item in query)
             {
                 DataRow row = cache.NewRow();
@@ -439,8 +441,99 @@ namespace AikoStudio
             }
             #endregion Adding new rows into cache
 
+            saveCacheIntoDb();
+            populateCache();
             populateDataGridView();
             dataGridView1.Update();
+        }
+
+        private void saveCacheIntoDb()
+        {
+            #region Deleting from db
+            var cacheGroupSubjectIdsHashSet = new HashSet<int>(cache.Rows.OfType<DataRow>()
+                                                                    .Select(dr => dr.Field<int>("GroupSubjectId")).ToArray<int>());
+
+            var dbGroupSubjectIdsHashSet = new HashSet<int>(context.GroupSubjects.Select(gs => gs.Id).ToArray<int>());
+
+
+            dbGroupSubjectIdsHashSet.ExceptWith(cacheGroupSubjectIdsHashSet);
+
+            foreach (int id in dbGroupSubjectIdsHashSet)
+            {
+                GroupSubject gs = context.GroupSubjects.Find(id);
+                Subject sub = gs.Subject;
+                GroupOfStudents gr = gs.GroupOfStudents;
+                context.GroupSubjects.Remove(gs);
+                context.Subjects.Remove(sub);
+                context.GroupOfStudents.Remove(gr);
+            }
+            context.SaveChanges();
+            #endregion Deleting from db
+
+            #region Add or update rows in tables of db
+            foreach (DataRow row in cache.Rows)
+            {
+                object[] objs = row.ItemArray;
+                if ((int)objs[1] > 0)
+                {
+                    var gs = context.GroupSubjects.Find((int)objs[1]);
+                    var gr = gs.GroupOfStudents;
+                    var sub = gs.Subject;
+
+                    sub.Name = objs[5].ToString();
+                    sub.LectureQty = (int)objs[11];
+                    sub.SeminarQty = (int)objs[12];
+                    sub.LaboratoryQty = (int)objs[13];
+                    sub.LectureCreditQty = (decimal)objs[14];
+                    sub.SeminarCreditQty = (decimal)objs[15];
+                    sub.LaboratoryCreditQty = (decimal)objs[16];
+                    sub.OtherCreditQty = (decimal)objs[17];
+                    sub.AllCreditQty = (decimal)objs[18];
+                    context.Entry(sub).State = System.Data.Entity.EntityState.Modified;
+
+                    gr.SpecialtyId = (int)objs[2];
+                    gr.DepartmentId = (int)objs[6];
+                    gr.Year = (int)objs[8];
+                    gr.Semester = (int)objs[9];
+                    gr.Contingent = (int)objs[10];
+                    context.Entry(gr).State = System.Data.Entity.EntityState.Modified;
+                }
+                else
+                {
+                    Subject sub = new Subject()
+                    {
+                        Name = objs[5].ToString(),
+                        LectureQty = (int)objs[11],
+                        SeminarQty = (int)objs[12],
+                        LaboratoryQty = (int)objs[13],
+                        LectureCreditQty = (decimal)objs[14],
+                        SeminarCreditQty = (decimal)objs[15],
+                        LaboratoryCreditQty = (decimal)objs[16],
+                        OtherCreditQty = (decimal)objs[17],
+                        AllCreditQty = (decimal)objs[18]
+                    };
+                    context.Subjects.Add(sub);
+
+                    GroupOfStudents gr = new GroupOfStudents()
+                    {
+                        SpecialtyId = (int)objs[2],
+                        DepartmentId = (int)objs[6],
+                        Contingent = (int)objs[10],
+                        Year = (int)objs[8],
+                        Semester = (int)objs[9]
+                    };
+                    context.GroupOfStudents.Add(gr);
+
+                    GroupSubject gs = new GroupSubject()
+                    {
+                        SubjectId = sub.Id,
+                        GroupId = gr.Id
+                    };
+                    context.GroupSubjects.Add(gs);
+                }
+                context.SaveChanges();
+                #endregion Add or update rows in tables of db
+            }
         }
 
         /*private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
