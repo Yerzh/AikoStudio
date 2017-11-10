@@ -14,10 +14,19 @@ namespace AikoStudio
     
     public partial class GroupSubject
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GroupSubject()
+        {
+            this.Curriculum = new HashSet<Curriculum>();
+        }
+
+        [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
         public int GroupId { get; set; }
         public int SubjectId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Curriculum> Curriculum { get; set; }
         public virtual GroupOfStudents GroupOfStudents { get; set; }
         public virtual Subject Subject { get; set; }
     }

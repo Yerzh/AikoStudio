@@ -19,7 +19,8 @@ namespace AikoStudio
         {
             this.GroupSubject = new HashSet<GroupSubject>();
         }
-    
+
+        [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
         public int SpecialtyId { get; set; }
         public int DepartmentId { get; set; }

@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Хранилище AikoDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Curriculum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupSubjectId" Type="int" Nullable="false" />
+          <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="EducationalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="PedagogicalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="UndergraduatePractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="IndustrialPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ResearchPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="СommissionMembership" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="SupervisoryWork" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="TotalCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
@@ -56,6 +72,15 @@
           <Property Name="OtherCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="AllCreditQty" Type="numeric" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fio" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Publications" Type="int" />
+          <Property Name="DesiredWageRate" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <Association Name="FK_department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
@@ -77,6 +102,18 @@
             </Principal>
             <Dependent Role="GroupSubject">
               <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupSubject">
+          <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="1" />
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupSubject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curriculum">
+              <PropertyRef Name="GroupSubjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -104,12 +141,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curriculum">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище AikoDbModelContainer">
+          <EntitySet Name="Curriculum" EntityType="Self.Curriculum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupSubject" EntityType="Self.GroupSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_department" Association="Self.FK_department">
             <End Role="Department" EntitySet="Department" />
             <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
@@ -117,6 +168,10 @@
           <AssociationSet Name="FK_group" Association="Self.FK_group">
             <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
             <End Role="GroupSubject" EntitySet="GroupSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupSubject" Association="Self.FK_GroupSubject">
+            <End Role="GroupSubject" EntitySet="GroupSubject" />
+            <End Role="Curriculum" EntitySet="Curriculum" />
           </AssociationSet>
           <AssociationSet Name="FK_specialty" Association="Self.FK_specialty">
             <End Role="Specialty" EntitySet="Specialty" />
@@ -126,12 +181,34 @@
             <End Role="Subject" EntitySet="Subject" />
             <End Role="GroupSubject" EntitySet="GroupSubject" />
           </AssociationSet>
+          <AssociationSet Name="FK_Teacher" Association="Self.FK_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Curriculum" EntitySet="Curriculum" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AikoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Curriculum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupSubjectId" Type="Int32" Nullable="false" />
+          <Property Name="TeacherId" Type="Int32" Nullable="false" />
+          <Property Name="EducationalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="PedagogicalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="UndergraduatePractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="IndustrialPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ResearchPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="СommissionMembership" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="SupervisoryWork" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="TotalCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <NavigationProperty Name="GroupSubject" Relationship="Self.FK_GroupSubject" FromRole="Curriculum" ToRole="GroupSubject" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Teacher" FromRole="Curriculum" ToRole="Teacher" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
@@ -162,6 +239,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curriculum" Relationship="Self.FK_GroupSubject" FromRole="GroupSubject" ToRole="Curriculum" />
           <NavigationProperty Name="GroupOfStudents" Relationship="Self.FK_group" FromRole="GroupSubject" ToRole="GroupOfStudents" />
           <NavigationProperty Name="Subject" Relationship="Self.FK_subject" FromRole="GroupSubject" ToRole="Subject" />
         </EntityType>
@@ -191,6 +269,40 @@
           <Property Name="AllCreditQty" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <NavigationProperty Name="GroupSubject" Relationship="Self.FK_subject" FromRole="Subject" ToRole="GroupSubject" />
         </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fio" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Publications" Type="Int32" />
+          <Property Name="DesiredWageRate" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Curriculum" Relationship="Self.FK_Teacher" FromRole="Teacher" ToRole="Curriculum" />
+        </EntityType>
+        <Association Name="FK_GroupSubject">
+          <End Role="GroupSubject" Type="Self.GroupSubject" Multiplicity="1" />
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupSubject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curriculum">
+              <PropertyRef Name="GroupSubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curriculum">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="GroupOfStudents" Type="Self.GroupOfStudents" Multiplicity="*" />
@@ -240,11 +352,21 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AikoDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Curriculum" EntityType="Self.Curriculum" />
           <EntitySet Name="Department" EntityType="Self.Department" />
           <EntitySet Name="GroupOfStudents" EntityType="Self.GroupOfStudents" />
           <EntitySet Name="GroupSubject" EntityType="Self.GroupSubject" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" />
           <EntitySet Name="Subject" EntityType="Self.Subject" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK_GroupSubject" Association="Self.FK_GroupSubject">
+            <End Role="GroupSubject" EntitySet="GroupSubject" />
+            <End Role="Curriculum" EntitySet="Curriculum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher" Association="Self.FK_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Curriculum" EntitySet="Curriculum" />
+          </AssociationSet>
           <AssociationSet Name="FK_department" Association="Self.FK_department">
             <End Role="Department" EntitySet="Department" />
             <End Role="GroupOfStudents" EntitySet="GroupOfStudents" />
@@ -268,6 +390,23 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище AikoDbModelContainer" CdmEntityContainer="AikoDbEntities">
+          <EntitySetMapping Name="Curriculum">
+            <EntityTypeMapping TypeName="AikoDbModel.Curriculum">
+              <MappingFragment StoreEntitySet="Curriculum">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupSubjectId" ColumnName="GroupSubjectId" />
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="EducationalPractice" ColumnName="EducationalPractice" />
+                <ScalarProperty Name="PedagogicalPractice" ColumnName="PedagogicalPractice" />
+                <ScalarProperty Name="UndergraduatePractice" ColumnName="UndergraduatePractice" />
+                <ScalarProperty Name="IndustrialPractice" ColumnName="IndustrialPractice" />
+                <ScalarProperty Name="ResearchPractice" ColumnName="ResearchPractice" />
+                <ScalarProperty Name="СommissionMembership" ColumnName="СommissionMembership" />
+                <ScalarProperty Name="SupervisoryWork" ColumnName="SupervisoryWork" />
+                <ScalarProperty Name="TotalCredits" ColumnName="TotalCredits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Department">
             <EntityTypeMapping TypeName="AikoDbModel.Department">
               <MappingFragment StoreEntitySet="Department">
@@ -321,6 +460,16 @@
                 <ScalarProperty Name="LaboratoryCreditQty" ColumnName="LaboratoryCreditQty" />
                 <ScalarProperty Name="OtherCreditQty" ColumnName="OtherCreditQty" />
                 <ScalarProperty Name="AllCreditQty" ColumnName="AllCreditQty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="AikoDbModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fio" ColumnName="Fio" />
+                <ScalarProperty Name="Publications" ColumnName="Publications" />
+                <ScalarProperty Name="DesiredWageRate" ColumnName="DesiredWageRate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

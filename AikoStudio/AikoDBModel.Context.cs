@@ -25,10 +25,12 @@ namespace AikoStudio
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Curriculum> Curriculums { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<GroupOfStudents> GroupOfStudents { get; set; }
         public virtual DbSet<GroupSubject> GroupSubjects { get; set; }
         public virtual DbSet<Specialty> Specialties { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Teacher> Teachers { get; set; }
     }
 }

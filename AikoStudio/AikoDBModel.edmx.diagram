@@ -4,12 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="553aca3c4ec84f99bd677a58606ca324" Name="Diagram1">
-        <EntityTypeShape EntityType="AikoDbModel.Department" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AikoDbModel.GroupOfStudents" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="AikoDbModel.GroupSubject" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AikoDbModel.Specialty" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AikoDbModel.Subject" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+      <Diagram DiagramId="47b09b512b794f609ce67740e490a4cc" Name="Diagram1">
+        <EntityTypeShape EntityType="AikoDbModel.Curriculum" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.Department" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.GroupOfStudents" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.GroupSubject" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.Specialty" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.Subject" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AikoDbModel.Teacher" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="AikoDbModel.FK_GroupSubject" ManuallyRouted="false" />
+        <AssociationConnector Association="AikoDbModel.FK_Teacher" ManuallyRouted="false" />
         <AssociationConnector Association="AikoDbModel.FK_department" ManuallyRouted="false" />
         <AssociationConnector Association="AikoDbModel.FK_group" ManuallyRouted="false" />
         <AssociationConnector Association="AikoDbModel.FK_specialty" ManuallyRouted="false" />

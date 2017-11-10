@@ -1,6 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Хранилище AikoDbModelContainer" CdmEntityContainer="AikoDbEntities">
+    <EntitySetMapping Name="Curriculum">
+      <EntityTypeMapping TypeName="AikoDbModel.Curriculum">
+        <MappingFragment StoreEntitySet="Curriculum">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GroupSubjectId" ColumnName="GroupSubjectId" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+          <ScalarProperty Name="EducationalPractice" ColumnName="EducationalPractice" />
+          <ScalarProperty Name="PedagogicalPractice" ColumnName="PedagogicalPractice" />
+          <ScalarProperty Name="UndergraduatePractice" ColumnName="UndergraduatePractice" />
+          <ScalarProperty Name="IndustrialPractice" ColumnName="IndustrialPractice" />
+          <ScalarProperty Name="ResearchPractice" ColumnName="ResearchPractice" />
+          <ScalarProperty Name="СommissionMembership" ColumnName="СommissionMembership" />
+          <ScalarProperty Name="SupervisoryWork" ColumnName="SupervisoryWork" />
+          <ScalarProperty Name="TotalCredits" ColumnName="TotalCredits" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Department">
       <EntityTypeMapping TypeName="AikoDbModel.Department">
         <MappingFragment StoreEntitySet="Department">
@@ -54,6 +71,16 @@
           <ScalarProperty Name="LaboratoryCreditQty" ColumnName="LaboratoryCreditQty" />
           <ScalarProperty Name="OtherCreditQty" ColumnName="OtherCreditQty" />
           <ScalarProperty Name="AllCreditQty" ColumnName="AllCreditQty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teacher">
+      <EntityTypeMapping TypeName="AikoDbModel.Teacher">
+        <MappingFragment StoreEntitySet="Teacher">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fio" ColumnName="Fio" />
+          <ScalarProperty Name="Publications" ColumnName="Publications" />
+          <ScalarProperty Name="DesiredWageRate" ColumnName="DesiredWageRate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -11,21 +11,23 @@ namespace AikoStudio
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Department
-    {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Department()
-        {
-            this.GroupOfStudents = new HashSet<GroupOfStudents>();
-        }
 
+    public partial class Curriculum
+    {
         [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
-        public string LongName { get; set; }
-        public string ShortName { get; set; }
+        public int GroupSubjectId { get; set; }
+        public int TeacherId { get; set; }
+        public decimal EducationalPractice { get; set; }
+        public decimal PedagogicalPractice { get; set; }
+        public decimal UndergraduatePractice { get; set; }
+        public decimal IndustrialPractice { get; set; }
+        public decimal ResearchPractice { get; set; }
+        public decimal СommissionMembership { get; set; }
+        public decimal SupervisoryWork { get; set; }
+        public decimal TotalCredits { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupOfStudents> GroupOfStudents { get; set; }
+        public virtual GroupSubject GroupSubject { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

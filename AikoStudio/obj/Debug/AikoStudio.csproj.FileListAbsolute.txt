@@ -21,3 +21,4 @@ C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Form1
 C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.Properties.Resources.resources
 C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.csproj.GenerateResource.Cache
 C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\ysalk\Desktop\Projects\AikoStudio\AikoStudio\obj\Debug\AikoStudio.TeacherTableEditForm.resources

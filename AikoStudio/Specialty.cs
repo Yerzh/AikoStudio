@@ -19,7 +19,8 @@ namespace AikoStudio
         {
             this.GroupOfStudents = new HashSet<GroupOfStudents>();
         }
-    
+
+        [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
         public string Code { get; set; }
         public string LongName { get; set; }
