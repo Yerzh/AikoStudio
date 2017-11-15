@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +11,7 @@ namespace AikoStudio
     public partial class Form1 : Form
     {
         private AikoDbEntities context;
-        private DataTable cache;
+        public DataTable cache;
 
         public Form1()
         {
@@ -324,7 +325,7 @@ namespace AikoStudio
             this.DepartmentCol.DisplayMember = table.Columns["DepartmentDisplayName"].ColumnName;
         }
 
-        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveDataGridViewToCache()
         {
             bool validateRes = validateDataGridViewCellValues();
             if (!validateRes)
@@ -337,12 +338,12 @@ namespace AikoStudio
             while (r < cache.Rows.Count)
             {
                 DataRow row = cache.Rows[r];
-                if (dataGridView1.Rows[r].Cells[0].Value == null || 
+                if (dataGridView1.Rows[r].Cells[0].Value == null ||
                       (int)row.ItemArray[0] != int.Parse(dataGridView1.Rows[r].Cells[0].Value.ToString()))
                 {
                     cache.Rows.Remove(row);
                     continue;
-                }                    
+                }
                 r++;
             }
 
@@ -440,9 +441,12 @@ namespace AikoStudio
                 cache.Rows.Add(row);
             }
             #endregion Adding new rows into cache
+        }
 
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveDataGridViewToCache();
             saveCacheIntoDb();
-            populateCache();
             populateDataGridView();
             dataGridView1.Update();
         }
@@ -539,7 +543,61 @@ namespace AikoStudio
         private void TeacherTableEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TeacherTableEditForm teacherTableEdit = new TeacherTableEditForm();
-            teacherTableEdit.Show();
+            teacherTableEdit.StartPosition = FormStartPosition.CenterScreen;
+            teacherTableEdit.ShowDialog();
         }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int rowIndex = e.RowIndex;
+                int colIndex = e.ColumnIndex;
+                if (rowIndex != -1 && colIndex != -1)
+                {
+                    DataGridViewCell currentCell = (sender as DataGridView).CurrentCell;
+                    var mousePosition = dataGridView1.PointToClient(Cursor.Position);
+                    contextMenuStrip1.Show(dataGridView1, mousePosition);
+                    selectedRowIndex = rowIndex;
+                    selectedColIndex = colIndex;
+                }
+            }
+        }
+
+        int selectedRowIndex;
+        int selectedColIndex;
+        private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            DataGridViewCell selectedCell = dataGridView1.Rows[selectedRowIndex].Cells[selectedColIndex];
+            if (e.ClickedItem == tsCopyMenuItem)
+                Clipboard.SetText(selectedCell.FormattedValue.ToString());                
+            else if (e.ClickedItem == tsPasteMenuItem)
+            {
+                if (selectedCell.OwningColumn.GetType() == typeof(DataGridViewComboBoxColumn))
+                    return;
+
+                selectedCell.Value = Clipboard.GetText();
+            }
+            else if (e.ClickedItem == tsCutMenuItem)
+            {
+                if (selectedCell.OwningColumn.GetType() == typeof(DataGridViewComboBoxColumn))
+                    return;
+
+                Clipboard.SetText(selectedCell.Value.ToString());
+                selectedCell.Value = null;
+            }
+            else if (e.ClickedItem == tsAddMenuItem)
+            {
+                IUPEditorForm iup = new IUPEditorForm(this, new AddIUPItem() { RowIndex = selectedRowIndex, ColIndex = selectedColIndex });
+                iup.StartPosition = FormStartPosition.CenterScreen;
+                iup.ShowDialog();
+            }
+        }
+    }
+
+    public class AddIUPItem
+    {
+        public int RowIndex { get; set; }
+        public int ColIndex { get; set; }
     }
 }

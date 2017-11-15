@@ -191,6 +191,9 @@ namespace AikoStudio
                 #endregion Adding new rows into cache
 
                 saveCacheIntoDb();
+                populateCache();
+                populateDataGridView();
+                dataGridView1.Update();
             }
         }
 
