@@ -60,7 +60,7 @@ namespace AikoStudio
             populateDataGridView();
         }
 
-        private void populateCache()
+        public void populateCache()
         {
             var query = from gs in context.GroupSubjects
                         join g in context.GroupOfStudents
@@ -125,7 +125,7 @@ namespace AikoStudio
             }
         }
 
-        private void populateDataGridView()
+        public void populateDataGridView()
         {
             if (cache == null)
                 throw new NullReferenceException("Кэш не может быть null");
@@ -325,7 +325,7 @@ namespace AikoStudio
             this.DepartmentCol.DisplayMember = table.Columns["DepartmentDisplayName"].ColumnName;
         }
 
-        private void SaveDataGridViewToCache()
+        public void SaveDataGridViewToCache()
         {
             bool validateRes = validateDataGridViewCellValues();
             if (!validateRes)
@@ -451,7 +451,7 @@ namespace AikoStudio
             dataGridView1.Update();
         }
 
-        private void saveCacheIntoDb()
+        public void saveCacheIntoDb()
         {
             #region Deleting from db
             var cacheGroupSubjectIdsHashSet = new HashSet<int>(cache.Rows.OfType<DataRow>()

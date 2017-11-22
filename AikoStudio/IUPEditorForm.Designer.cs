@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.teacherChoosingComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.fioLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.LecSemLabRightLabel = new System.Windows.Forms.Label();
+            this.lecSemLabRightLabel = new System.Windows.Forms.Label();
             this.lecSemLabLeftLabel = new System.Windows.Forms.Label();
             this.yearSemesterRigthLabel = new System.Windows.Forms.Label();
             this.yearSemesterLeftLabel = new System.Windows.Forms.Label();
@@ -41,9 +42,15 @@
             this.subjectNameRightLabel = new System.Windows.Forms.Label();
             this.subjNameLeftLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbSupervCred = new System.Windows.Forms.TextBox();
+            this.tbMemberCred = new System.Windows.Forms.TextBox();
+            this.tbResearchCred = new System.Windows.Forms.TextBox();
+            this.tbIndustCred = new System.Windows.Forms.TextBox();
+            this.tbGradCred = new System.Windows.Forms.TextBox();
+            this.tbPedagCred = new System.Windows.Forms.TextBox();
+            this.tbEducCred = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
             this.totalCreditsLabel = new System.Windows.Forms.Label();
-            this.labelSienceCred = new System.Windows.Forms.Label();
             this.labelSupervCred = new System.Windows.Forms.Label();
             this.ComissionMembershipCreditsLabel = new System.Windows.Forms.Label();
             this.researchCreditsLabel = new System.Windows.Forms.Label();
@@ -57,18 +64,12 @@
             this.seminarQtyLabel = new System.Windows.Forms.Label();
             this.tbLectureQty = new System.Windows.Forms.TextBox();
             this.lectureQtyLabel = new System.Windows.Forms.Label();
-            this.tbEducCred = new System.Windows.Forms.TextBox();
-            this.tbPedagCred = new System.Windows.Forms.TextBox();
-            this.tbGradCred = new System.Windows.Forms.TextBox();
-            this.tbIndustCred = new System.Windows.Forms.TextBox();
-            this.tbResearchCred = new System.Windows.Forms.TextBox();
-            this.tbMemberCred = new System.Windows.Forms.TextBox();
-            this.tbSupervCred = new System.Windows.Forms.TextBox();
-            this.tbSienceCred = new System.Windows.Forms.TextBox();
-            this.tbTotalCred = new System.Windows.Forms.TextBox();
+            this.labelAllCred = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // teacherChoosingComboBox
@@ -88,7 +89,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(667, 71);
+            this.groupBox1.Size = new System.Drawing.Size(683, 71);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Преподаватель";
@@ -104,7 +105,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.LecSemLabRightLabel);
+            this.groupBox2.Controls.Add(this.lecSemLabRightLabel);
             this.groupBox2.Controls.Add(this.lecSemLabLeftLabel);
             this.groupBox2.Controls.Add(this.yearSemesterRigthLabel);
             this.groupBox2.Controls.Add(this.yearSemesterLeftLabel);
@@ -114,19 +115,19 @@
             this.groupBox2.Controls.Add(this.subjNameLeftLabel);
             this.groupBox2.Location = new System.Drawing.Point(14, 85);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(667, 151);
+            this.groupBox2.Size = new System.Drawing.Size(683, 151);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Дисциплина";
             // 
-            // LecSemLabRightLabel
+            // lecSemLabRightLabel
             // 
-            this.LecSemLabRightLabel.AutoSize = true;
-            this.LecSemLabRightLabel.Location = new System.Drawing.Point(217, 120);
-            this.LecSemLabRightLabel.Name = "LecSemLabRightLabel";
-            this.LecSemLabRightLabel.Size = new System.Drawing.Size(120, 22);
-            this.LecSemLabRightLabel.TabIndex = 7;
-            this.LecSemLabRightLabel.Text = "Placeholder";
+            this.lecSemLabRightLabel.AutoSize = true;
+            this.lecSemLabRightLabel.Location = new System.Drawing.Point(217, 120);
+            this.lecSemLabRightLabel.Name = "lecSemLabRightLabel";
+            this.lecSemLabRightLabel.Size = new System.Drawing.Size(120, 22);
+            this.lecSemLabRightLabel.TabIndex = 7;
+            this.lecSemLabRightLabel.Text = "Placeholder";
             // 
             // lecSemLabLeftLabel
             // 
@@ -193,8 +194,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.tbTotalCred);
-            this.groupBox3.Controls.Add(this.tbSienceCred);
+            this.groupBox3.Controls.Add(this.labelAllCred);
             this.groupBox3.Controls.Add(this.tbSupervCred);
             this.groupBox3.Controls.Add(this.tbMemberCred);
             this.groupBox3.Controls.Add(this.tbResearchCred);
@@ -204,7 +204,6 @@
             this.groupBox3.Controls.Add(this.tbEducCred);
             this.groupBox3.Controls.Add(this.addButton);
             this.groupBox3.Controls.Add(this.totalCreditsLabel);
-            this.groupBox3.Controls.Add(this.labelSienceCred);
             this.groupBox3.Controls.Add(this.labelSupervCred);
             this.groupBox3.Controls.Add(this.ComissionMembershipCreditsLabel);
             this.groupBox3.Controls.Add(this.researchCreditsLabel);
@@ -220,14 +219,77 @@
             this.groupBox3.Controls.Add(this.lectureQtyLabel);
             this.groupBox3.Location = new System.Drawing.Point(14, 242);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(667, 519);
+            this.groupBox3.Size = new System.Drawing.Size(683, 492);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Кредиты дисциплины";
             // 
+            // tbSupervCred
+            // 
+            this.tbSupervCred.Location = new System.Drawing.Point(463, 351);
+            this.tbSupervCred.Name = "tbSupervCred";
+            this.tbSupervCred.Size = new System.Drawing.Size(194, 30);
+            this.tbSupervCred.TabIndex = 22;
+            this.tbSupervCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbSupervCred_Validating);
+            this.tbSupervCred.Validated += new System.EventHandler(this.tbSupervCred_Validated);
+            // 
+            // tbMemberCred
+            // 
+            this.tbMemberCred.Location = new System.Drawing.Point(463, 315);
+            this.tbMemberCred.Name = "tbMemberCred";
+            this.tbMemberCred.Size = new System.Drawing.Size(194, 30);
+            this.tbMemberCred.TabIndex = 21;
+            this.tbMemberCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbMemberCred_Validating);
+            this.tbMemberCred.Validated += new System.EventHandler(this.tbMemberCred_Validated);
+            // 
+            // tbResearchCred
+            // 
+            this.tbResearchCred.Location = new System.Drawing.Point(463, 279);
+            this.tbResearchCred.Name = "tbResearchCred";
+            this.tbResearchCred.Size = new System.Drawing.Size(194, 30);
+            this.tbResearchCred.TabIndex = 20;
+            this.tbResearchCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbResearchCred_Validating);
+            this.tbResearchCred.Validated += new System.EventHandler(this.tbResearchCred_Validated);
+            // 
+            // tbIndustCred
+            // 
+            this.tbIndustCred.Location = new System.Drawing.Point(463, 243);
+            this.tbIndustCred.Name = "tbIndustCred";
+            this.tbIndustCred.Size = new System.Drawing.Size(194, 30);
+            this.tbIndustCred.TabIndex = 19;
+            this.tbIndustCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbIndustCred_Validating);
+            this.tbIndustCred.Validated += new System.EventHandler(this.tbIndustCred_Validated);
+            // 
+            // tbGradCred
+            // 
+            this.tbGradCred.Location = new System.Drawing.Point(463, 207);
+            this.tbGradCred.Name = "tbGradCred";
+            this.tbGradCred.Size = new System.Drawing.Size(194, 30);
+            this.tbGradCred.TabIndex = 18;
+            this.tbGradCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbGradCred_Validating);
+            this.tbGradCred.Validated += new System.EventHandler(this.tbGradCred_Validated);
+            // 
+            // tbPedagCred
+            // 
+            this.tbPedagCred.Location = new System.Drawing.Point(463, 171);
+            this.tbPedagCred.Name = "tbPedagCred";
+            this.tbPedagCred.Size = new System.Drawing.Size(194, 30);
+            this.tbPedagCred.TabIndex = 17;
+            this.tbPedagCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbPedagCred_Validating);
+            this.tbPedagCred.Validated += new System.EventHandler(this.tbPedagCred_Validated);
+            // 
+            // tbEducCred
+            // 
+            this.tbEducCred.Location = new System.Drawing.Point(463, 135);
+            this.tbEducCred.Name = "tbEducCred";
+            this.tbEducCred.Size = new System.Drawing.Size(194, 30);
+            this.tbEducCred.TabIndex = 16;
+            this.tbEducCred.Validating += new System.ComponentModel.CancelEventHandler(this.tbEducCred_Validating);
+            this.tbEducCred.Validated += new System.EventHandler(this.tbEducCred_Validated);
+            // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(280, 479);
+            this.addButton.Location = new System.Drawing.Point(279, 451);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(104, 32);
             this.addButton.TabIndex = 15;
@@ -238,20 +300,11 @@
             // totalCreditsLabel
             // 
             this.totalCreditsLabel.AutoSize = true;
-            this.totalCreditsLabel.Location = new System.Drawing.Point(25, 426);
+            this.totalCreditsLabel.Location = new System.Drawing.Point(25, 390);
             this.totalCreditsLabel.Name = "totalCreditsLabel";
             this.totalCreditsLabel.Size = new System.Drawing.Size(70, 22);
             this.totalCreditsLabel.TabIndex = 14;
             this.totalCreditsLabel.Text = "Всего:";
-            // 
-            // labelSienceCred
-            // 
-            this.labelSienceCred.AutoSize = true;
-            this.labelSienceCred.Location = new System.Drawing.Point(25, 390);
-            this.labelSienceCred.Name = "labelSienceCred";
-            this.labelSienceCred.Size = new System.Drawing.Size(330, 22);
-            this.labelSienceCred.TabIndex = 13;
-            this.labelSienceCred.Text = "Публикация научных результатов: ";
             // 
             // labelSupervCred
             // 
@@ -322,6 +375,8 @@
             this.tbLabQty.Name = "tbLabQty";
             this.tbLabQty.Size = new System.Drawing.Size(194, 30);
             this.tbLabQty.TabIndex = 5;
+            this.tbLabQty.Validating += new System.ComponentModel.CancelEventHandler(this.tbLabQty_Validating);
+            this.tbLabQty.Validated += new System.EventHandler(this.tbLabQty_Validated);
             // 
             // labQtyLabel
             // 
@@ -338,6 +393,8 @@
             this.tbSeminarQty.Name = "tbSeminarQty";
             this.tbSeminarQty.Size = new System.Drawing.Size(194, 30);
             this.tbSeminarQty.TabIndex = 3;
+            this.tbSeminarQty.Validating += new System.ComponentModel.CancelEventHandler(this.tbSeminarQty_Validating);
+            this.tbSeminarQty.Validated += new System.EventHandler(this.tbSeminarQty_Validated);
             // 
             // seminarQtyLabel
             // 
@@ -354,6 +411,8 @@
             this.tbLectureQty.Name = "tbLectureQty";
             this.tbLectureQty.Size = new System.Drawing.Size(194, 30);
             this.tbLectureQty.TabIndex = 1;
+            this.tbLectureQty.Validating += new System.ComponentModel.CancelEventHandler(this.tbLectureQty_Validating);
+            this.tbLectureQty.Validated += new System.EventHandler(this.tbLectureQty_Validated);
             // 
             // lectureQtyLabel
             // 
@@ -364,74 +423,24 @@
             this.lectureQtyLabel.TabIndex = 0;
             this.lectureQtyLabel.Text = "Лекции:";
             // 
-            // tbEducCred
+            // labelAllCred
             // 
-            this.tbEducCred.Location = new System.Drawing.Point(463, 135);
-            this.tbEducCred.Name = "tbEducCred";
-            this.tbEducCred.Size = new System.Drawing.Size(194, 30);
-            this.tbEducCred.TabIndex = 16;
+            this.labelAllCred.AutoSize = true;
+            this.labelAllCred.Location = new System.Drawing.Point(459, 390);
+            this.labelAllCred.Name = "labelAllCred";
+            this.labelAllCred.Size = new System.Drawing.Size(120, 22);
+            this.labelAllCred.TabIndex = 23;
+            this.labelAllCred.Text = "Placeholder";
             // 
-            // tbPedagCred
+            // errorProvider1
             // 
-            this.tbPedagCred.Location = new System.Drawing.Point(463, 171);
-            this.tbPedagCred.Name = "tbPedagCred";
-            this.tbPedagCred.Size = new System.Drawing.Size(194, 30);
-            this.tbPedagCred.TabIndex = 17;
-            // 
-            // tbGradCred
-            // 
-            this.tbGradCred.Location = new System.Drawing.Point(463, 207);
-            this.tbGradCred.Name = "tbGradCred";
-            this.tbGradCred.Size = new System.Drawing.Size(194, 30);
-            this.tbGradCred.TabIndex = 18;
-            // 
-            // tbIndustCred
-            // 
-            this.tbIndustCred.Location = new System.Drawing.Point(463, 243);
-            this.tbIndustCred.Name = "tbIndustCred";
-            this.tbIndustCred.Size = new System.Drawing.Size(194, 30);
-            this.tbIndustCred.TabIndex = 19;
-            // 
-            // tbResearchCred
-            // 
-            this.tbResearchCred.Location = new System.Drawing.Point(463, 279);
-            this.tbResearchCred.Name = "tbResearchCred";
-            this.tbResearchCred.Size = new System.Drawing.Size(194, 30);
-            this.tbResearchCred.TabIndex = 20;
-            // 
-            // tbMemberCred
-            // 
-            this.tbMemberCred.Location = new System.Drawing.Point(463, 315);
-            this.tbMemberCred.Name = "tbMemberCred";
-            this.tbMemberCred.Size = new System.Drawing.Size(194, 30);
-            this.tbMemberCred.TabIndex = 21;
-            // 
-            // tbSupervCred
-            // 
-            this.tbSupervCred.Location = new System.Drawing.Point(463, 351);
-            this.tbSupervCred.Name = "tbSupervCred";
-            this.tbSupervCred.Size = new System.Drawing.Size(194, 30);
-            this.tbSupervCred.TabIndex = 22;
-            // 
-            // tbSienceCred
-            // 
-            this.tbSienceCred.Location = new System.Drawing.Point(463, 387);
-            this.tbSienceCred.Name = "tbSienceCred";
-            this.tbSienceCred.Size = new System.Drawing.Size(194, 30);
-            this.tbSienceCred.TabIndex = 23;
-            // 
-            // tbTotalCred
-            // 
-            this.tbTotalCred.Location = new System.Drawing.Point(463, 423);
-            this.tbTotalCred.Name = "tbTotalCred";
-            this.tbTotalCred.Size = new System.Drawing.Size(194, 30);
-            this.tbTotalCred.TabIndex = 24;
+            this.errorProvider1.ContainerControl = this;
             // 
             // IUPEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(688, 765);
+            this.ClientSize = new System.Drawing.Size(709, 739);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -440,7 +449,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "IUPEditorForm";
-            this.Text = "Редактор данных для ИУП";
+            this.Text = "Редактор ИУП";
             this.Load += new System.EventHandler(this.IUPEditorForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -448,6 +457,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -460,7 +470,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label subjNameLeftLabel;
         private System.Windows.Forms.Label subjectNameRightLabel;
-        private System.Windows.Forms.Label LecSemLabRightLabel;
+        private System.Windows.Forms.Label lecSemLabRightLabel;
         private System.Windows.Forms.Label lecSemLabLeftLabel;
         private System.Windows.Forms.Label yearSemesterRigthLabel;
         private System.Windows.Forms.Label yearSemesterLeftLabel;
@@ -468,7 +478,6 @@
         private System.Windows.Forms.Label specialityLeftLabel;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label totalCreditsLabel;
-        private System.Windows.Forms.Label labelSienceCred;
         private System.Windows.Forms.Label labelSupervCred;
         private System.Windows.Forms.Label ComissionMembershipCreditsLabel;
         private System.Windows.Forms.Label researchCreditsLabel;
@@ -483,8 +492,6 @@
         private System.Windows.Forms.TextBox tbLectureQty;
         private System.Windows.Forms.Label lectureQtyLabel;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.TextBox tbTotalCred;
-        private System.Windows.Forms.TextBox tbSienceCred;
         private System.Windows.Forms.TextBox tbSupervCred;
         private System.Windows.Forms.TextBox tbMemberCred;
         private System.Windows.Forms.TextBox tbResearchCred;
@@ -492,5 +499,7 @@
         private System.Windows.Forms.TextBox tbGradCred;
         private System.Windows.Forms.TextBox tbPedagCred;
         private System.Windows.Forms.TextBox tbEducCred;
+        private System.Windows.Forms.Label labelAllCred;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
