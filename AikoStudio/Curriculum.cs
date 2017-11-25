@@ -11,13 +11,15 @@ namespace AikoStudio
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Curriculum
     {
-        [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }
         public int GroupSubjectId { get; set; }
         public int TeacherId { get; set; }
+        public decimal LectureCredits { get; set; }
+        public decimal SeminarCredits { get; set; }
+        public decimal LaboratoryCredits { get; set; }
         public decimal EducationalPractice { get; set; }
         public decimal PedagogicalPractice { get; set; }
         public decimal UndergraduatePractice { get; set; }
@@ -25,6 +27,7 @@ namespace AikoStudio
         public decimal ResearchPractice { get; set; }
         public decimal СommissionMembership { get; set; }
         public decimal SupervisoryWork { get; set; }
+        public decimal PublicationCredits { get; set; }
         public decimal TotalCredits { get; set; }
     
         public virtual GroupSubject GroupSubject { get; set; }

@@ -19,8 +19,7 @@ namespace AikoStudio
         {
             this.Curriculum = new HashSet<Curriculum>();
         }
-
-        [System.ComponentModel.DataAnnotations.Key]
+    
         public int Id { get; set; }
         public int GroupId { get; set; }
         public int SubjectId { get; set; }

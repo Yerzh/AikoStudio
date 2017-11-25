@@ -86,7 +86,39 @@ namespace AikoStudio
 
         private void addButton_Click(object sender, EventArgs e)
         {
+            int GroupSubjectId = (int)this.parent.cache.Rows[iupParams.RowIndex].ItemArray[1];
+            int TeacherId = (int)this.teacherChoosingComboBox.SelectedValue;
+            decimal lectureCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbLectureQty.Text) ? "0" : tbLectureQty.Text);
+            decimal seminarCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbSeminarQty.Text) ? "0" : tbSeminarQty.Text);
+            decimal laborCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbLabQty.Text) ? "0" : tbLabQty.Text);
+            decimal educCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbEducCred.Text) ? "0" : tbEducCred.Text);
+            decimal pedagCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbPedagCred.Text) ? "0" : tbPedagCred.Text);
+            decimal gradCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbGradCred.Text) ? "0" : tbGradCred.Text);
+            decimal industCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbIndustCred.Text) ? "0" : tbIndustCred.Text);
+            decimal researchCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbResearchCred.Text) ? "0" : tbResearchCred.Text);
+            decimal memberCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbMemberCred.Text) ? "0" : tbMemberCred.Text);
+            decimal supervCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbSupervCred.Text) ? "0" : tbSupervCred.Text);
+            //decimal publicationCredits = context.Teachers.Find(TeacherId).Publications;
 
+            context.Curriculums.Add(new Curriculum()
+            {
+                GroupSubjectId = GroupSubjectId,
+                TeacherId = TeacherId,
+                LectureCredits = lectureCredits,
+                SeminarCredits = seminarCredits,
+                LaboratoryCredits = laborCredits,
+                EducationalPractice = educCredits,
+                PedagogicalPractice = pedagCredits,
+                UndergraduatePractice = gradCredits,
+                IndustrialPractice = industCredits,
+                ResearchPractice = researchCredits,
+                СommissionMembership = memberCredits,
+                SupervisoryWork = supervCredits
+                //PublicationCredits = publicationCredits
+            });
+
+            context.SaveChanges();
+            this.Close();
         }
 
         private void calculateAllCredits()
@@ -123,21 +155,27 @@ namespace AikoStudio
 
             labelAllCred.Text = (tbLectureQtyDecimal + tbSeminarQtyDecimal + tbLabQtyDecimal +
                                  tbEducCredDecimal + tbPedagCredDecimal + tbGradCredDecimal +
-                                 tbIndustCredDecimal + tbResearchCredDecimal + tbResearchCredDecimal +
+                                 tbIndustCredDecimal + tbResearchCredDecimal +
                                  tbMemberCredDecimal + tbSupervCredDecimal).ToString();
         }
 
         private void tbLectureQty_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbLectureQty.Text) ? "0" : tbLectureQty.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbLectureQty.Text) ? "0" : tbLectureQty.Text, out result))
             {
                 e.Cancel = true;
                 tbLectureQty.Select(0, tbLectureQty.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbLectureQty, errorMsg);
-            }              
+                this.errorProvider1.SetError(tbLectureQty, "Значение должно быть числом.");
+            }
+
+            var lectures = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[14];
+            if (result > lectures || result < 0)
+            {
+                e.Cancel = true;
+                tbLectureQty.Select(0, tbLectureQty.Text.Length);
+                this.errorProvider1.SetError(tbLectureQty, "Значение выходит из разрешенного диапазона.");
+            }
         }
 
         private void tbLectureQty_Validated(object sender, EventArgs e)
@@ -148,14 +186,20 @@ namespace AikoStudio
 
         private void tbSeminarQty_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbSeminarQty.Text) ? "0" : tbSeminarQty.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbSeminarQty.Text) ? "0" : tbSeminarQty.Text, out result))
             {
                 e.Cancel = true;
                 tbSeminarQty.Select(0, tbSeminarQty.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbSeminarQty, errorMsg);
+                this.errorProvider1.SetError(tbSeminarQty, "Значение должно быть числом.");
+            }
+
+            var seminars = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[15];
+            if (result > seminars || result < 0)
+            {
+                e.Cancel = true;
+                tbSeminarQty.Select(0, tbSeminarQty.Text.Length);
+                this.errorProvider1.SetError(tbSeminarQty, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -167,14 +211,20 @@ namespace AikoStudio
 
         private void tbLabQty_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbLabQty.Text) ? "0" : tbLabQty.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbLabQty.Text) ? "0" : tbLabQty.Text, out result))
             {
                 e.Cancel = true;
                 tbLabQty.Select(0, tbLabQty.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbLabQty, errorMsg);
+                this.errorProvider1.SetError(tbLabQty, "Значение должно быть числом.");
+            }
+
+            var labs = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[16];
+            if (result > labs || result < 0)
+            {
+                e.Cancel = true;
+                tbLabQty.Select(0, tbLabQty.Text.Length);
+                this.errorProvider1.SetError(tbLabQty, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -186,14 +236,20 @@ namespace AikoStudio
 
         private void tbEducCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbEducCred.Text) ? "0" : tbEducCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbEducCred.Text) ? "0" : tbEducCred.Text, out result))
             {
                 e.Cancel = true;
                 tbEducCred.Select(0, tbEducCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbEducCred, errorMsg);
+                this.errorProvider1.SetError(tbEducCred, "Значение должно быть числом.");
+            }
+
+            var educCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > educCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbEducCred.Select(0, tbEducCred.Text.Length);
+                this.errorProvider1.SetError(tbEducCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -205,14 +261,20 @@ namespace AikoStudio
 
         private void tbPedagCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbPedagCred.Text) ? "0" : tbPedagCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbPedagCred.Text) ? "0" : tbPedagCred.Text, out result))
             {
                 e.Cancel = true;
                 tbPedagCred.Select(0, tbPedagCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbPedagCred, errorMsg);
+                this.errorProvider1.SetError(tbPedagCred, "Значение должно быть числом.");
+            }
+
+            var pedagCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > pedagCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbPedagCred.Select(0, tbPedagCred.Text.Length);
+                this.errorProvider1.SetError(tbPedagCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -224,14 +286,20 @@ namespace AikoStudio
 
         private void tbGradCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbGradCred.Text) ? "0" : tbGradCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbGradCred.Text) ? "0" : tbGradCred.Text, out result))
             {
                 e.Cancel = true;
                 tbGradCred.Select(0, tbGradCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbGradCred, errorMsg);
+                this.errorProvider1.SetError(tbGradCred, "Значение должно быть числом.");
+            }
+
+            var gradCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > gradCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbGradCred.Select(0, tbGradCred.Text.Length);
+                this.errorProvider1.SetError(tbGradCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -243,14 +311,20 @@ namespace AikoStudio
 
         private void tbIndustCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbIndustCred.Text) ? "0" : tbIndustCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbIndustCred.Text) ? "0" : tbIndustCred.Text, out result))
             {
                 e.Cancel = true;
                 tbIndustCred.Select(0, tbIndustCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbIndustCred, errorMsg);
+                this.errorProvider1.SetError(tbIndustCred, "Значение должно быть числом.");
+            }
+
+            var industCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > industCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbIndustCred.Select(0, tbIndustCred.Text.Length);
+                this.errorProvider1.SetError(tbIndustCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -262,14 +336,20 @@ namespace AikoStudio
 
         private void tbResearchCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbResearchCred.Text) ? "0" : tbResearchCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbResearchCred.Text) ? "0" : tbResearchCred.Text, out result))
             {
                 e.Cancel = true;
                 tbResearchCred.Select(0, tbResearchCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbResearchCred, errorMsg);
+                this.errorProvider1.SetError(tbResearchCred, "Значение должно быть числом.");
+            }
+
+            var researchCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > researchCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbResearchCred.Select(0, tbResearchCred.Text.Length);
+                this.errorProvider1.SetError(tbResearchCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -281,14 +361,20 @@ namespace AikoStudio
 
         private void tbMemberCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbMemberCred.Text) ? "0" : tbMemberCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbMemberCred.Text) ? "0" : tbMemberCred.Text, out result))
             {
                 e.Cancel = true;
                 tbMemberCred.Select(0, tbMemberCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbMemberCred, errorMsg);
+                this.errorProvider1.SetError(tbMemberCred, "Значение должно быть числом.");
+            }
+
+            var memberCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > memberCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbMemberCred.Select(0, tbMemberCred.Text.Length);
+                this.errorProvider1.SetError(tbMemberCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 
@@ -300,14 +386,20 @@ namespace AikoStudio
 
         private void tbSupervCred_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
             decimal result;
-            if (!decimal.TryParse(string.IsNullOrEmpty(tbSupervCred.Text) ? "0" : tbSupervCred.Text, out result))
+            if (!decimal.TryParse(string.IsNullOrWhiteSpace(tbSupervCred.Text) ? "0" : tbSupervCred.Text, out result))
             {
                 e.Cancel = true;
                 tbSupervCred.Select(0, tbSupervCred.Text.Length);
-                errorMsg = "Value must be numeric.";
-                this.errorProvider1.SetError(tbSupervCred, errorMsg);
+                this.errorProvider1.SetError(tbSupervCred, "Значение должно быть числом.");
+            }
+
+            var supervCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+            if (result > supervCredits || result < 0)
+            {
+                e.Cancel = true;
+                tbSupervCred.Select(0, tbSupervCred.Text.Length);
+                this.errorProvider1.SetError(tbSupervCred, "Значение выходит из разрешенного диапазона.");
             }
         }
 

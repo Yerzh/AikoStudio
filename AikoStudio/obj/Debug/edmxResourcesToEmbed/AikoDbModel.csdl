@@ -7,6 +7,9 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="GroupSubjectId" Type="Int32" Nullable="false" />
     <Property Name="TeacherId" Type="Int32" Nullable="false" />
+    <Property Name="LectureCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="SeminarCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="LaboratoryCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="EducationalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="PedagogicalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="UndergraduatePractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
@@ -14,6 +17,7 @@
     <Property Name="ResearchPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="СommissionMembership" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="SupervisoryWork" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="PublicationCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="TotalCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <NavigationProperty Name="GroupSubject" Relationship="Self.FK_GroupSubject" FromRole="Curriculum" ToRole="GroupSubject" />
     <NavigationProperty Name="Teacher" Relationship="Self.FK_Teacher" FromRole="Curriculum" ToRole="Teacher" />
@@ -84,8 +88,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Fio" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Publications" Type="Int32" />
-    <Property Name="DesiredWageRate" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Publications" Type="Int32" Nullable="false" />
+    <Property Name="DesiredWageRate" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <NavigationProperty Name="Curriculum" Relationship="Self.FK_Teacher" FromRole="Teacher" ToRole="Curriculum" />
   </EntityType>
   <Association Name="FK_GroupSubject">

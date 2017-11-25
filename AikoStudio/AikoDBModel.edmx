@@ -12,6 +12,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupSubjectId" Type="int" Nullable="false" />
           <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="LectureCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="SeminarCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="LaboratoryCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="EducationalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="PedagogicalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="UndergraduatePractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
@@ -19,6 +22,7 @@
           <Property Name="ResearchPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="СommissionMembership" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="SupervisoryWork" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="PublicationCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
           <Property Name="TotalCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
@@ -78,8 +82,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fio" Type="nvarchar" MaxLength="4000" Nullable="false" />
-          <Property Name="Publications" Type="int" />
-          <Property Name="DesiredWageRate" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Publications" Type="int" Nullable="false" />
+          <Property Name="DesiredWageRate" Type="numeric" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <Association Name="FK_department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
@@ -198,6 +202,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GroupSubjectId" Type="Int32" Nullable="false" />
           <Property Name="TeacherId" Type="Int32" Nullable="false" />
+          <Property Name="LectureCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="SeminarCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="LaboratoryCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="EducationalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="PedagogicalPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="UndergraduatePractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
@@ -205,6 +212,7 @@
           <Property Name="ResearchPractice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="СommissionMembership" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="SupervisoryWork" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="PublicationCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="TotalCredits" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <NavigationProperty Name="GroupSubject" Relationship="Self.FK_GroupSubject" FromRole="Curriculum" ToRole="GroupSubject" />
           <NavigationProperty Name="Teacher" Relationship="Self.FK_Teacher" FromRole="Curriculum" ToRole="Teacher" />
@@ -275,8 +283,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fio" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Publications" Type="Int32" />
-          <Property Name="DesiredWageRate" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Publications" Type="Int32" Nullable="false" />
+          <Property Name="DesiredWageRate" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <NavigationProperty Name="Curriculum" Relationship="Self.FK_Teacher" FromRole="Teacher" ToRole="Curriculum" />
         </EntityType>
         <Association Name="FK_GroupSubject">
@@ -396,6 +404,9 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="GroupSubjectId" ColumnName="GroupSubjectId" />
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="LectureCredits" ColumnName="LectureCredits" />
+                <ScalarProperty Name="SeminarCredits" ColumnName="SeminarCredits" />
+                <ScalarProperty Name="LaboratoryCredits" ColumnName="LaboratoryCredits" />
                 <ScalarProperty Name="EducationalPractice" ColumnName="EducationalPractice" />
                 <ScalarProperty Name="PedagogicalPractice" ColumnName="PedagogicalPractice" />
                 <ScalarProperty Name="UndergraduatePractice" ColumnName="UndergraduatePractice" />
@@ -403,6 +414,7 @@
                 <ScalarProperty Name="ResearchPractice" ColumnName="ResearchPractice" />
                 <ScalarProperty Name="СommissionMembership" ColumnName="СommissionMembership" />
                 <ScalarProperty Name="SupervisoryWork" ColumnName="SupervisoryWork" />
+                <ScalarProperty Name="PublicationCredits" ColumnName="PublicationCredits" />
                 <ScalarProperty Name="TotalCredits" ColumnName="TotalCredits" />
               </MappingFragment>
             </EntityTypeMapping>

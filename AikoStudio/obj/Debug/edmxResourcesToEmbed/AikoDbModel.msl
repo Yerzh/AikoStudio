@@ -7,6 +7,9 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="GroupSubjectId" ColumnName="GroupSubjectId" />
           <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+          <ScalarProperty Name="LectureCredits" ColumnName="LectureCredits" />
+          <ScalarProperty Name="SeminarCredits" ColumnName="SeminarCredits" />
+          <ScalarProperty Name="LaboratoryCredits" ColumnName="LaboratoryCredits" />
           <ScalarProperty Name="EducationalPractice" ColumnName="EducationalPractice" />
           <ScalarProperty Name="PedagogicalPractice" ColumnName="PedagogicalPractice" />
           <ScalarProperty Name="UndergraduatePractice" ColumnName="UndergraduatePractice" />
@@ -14,6 +17,7 @@
           <ScalarProperty Name="ResearchPractice" ColumnName="ResearchPractice" />
           <ScalarProperty Name="СommissionMembership" ColumnName="СommissionMembership" />
           <ScalarProperty Name="SupervisoryWork" ColumnName="SupervisoryWork" />
+          <ScalarProperty Name="PublicationCredits" ColumnName="PublicationCredits" />
           <ScalarProperty Name="TotalCredits" ColumnName="TotalCredits" />
         </MappingFragment>
       </EntityTypeMapping>

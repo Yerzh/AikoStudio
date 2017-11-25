@@ -7,6 +7,9 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GroupSubjectId" Type="int" Nullable="false" />
     <Property Name="TeacherId" Type="int" Nullable="false" />
+    <Property Name="LectureCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="SeminarCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="LaboratoryCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="EducationalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="PedagogicalPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="UndergraduatePractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
@@ -14,6 +17,7 @@
     <Property Name="ResearchPractice" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="СommissionMembership" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="SupervisoryWork" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="PublicationCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
     <Property Name="TotalCredits" Type="numeric" Precision="18" Scale="3" Nullable="false" />
   </EntityType>
   <EntityType Name="Department">
@@ -73,8 +77,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Fio" Type="nvarchar" MaxLength="4000" Nullable="false" />
-    <Property Name="Publications" Type="int" />
-    <Property Name="DesiredWageRate" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Publications" Type="int" Nullable="false" />
+    <Property Name="DesiredWageRate" Type="numeric" Precision="18" Scale="3" Nullable="false" />
   </EntityType>
   <Association Name="FK_department">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
