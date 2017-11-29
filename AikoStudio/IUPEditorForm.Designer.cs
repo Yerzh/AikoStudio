@@ -42,6 +42,7 @@
             this.subjectNameRightLabel = new System.Windows.Forms.Label();
             this.subjNameLeftLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.labelAllCred = new System.Windows.Forms.Label();
             this.tbSupervCred = new System.Windows.Forms.TextBox();
             this.tbMemberCred = new System.Windows.Forms.TextBox();
             this.tbResearchCred = new System.Windows.Forms.TextBox();
@@ -64,7 +65,6 @@
             this.seminarQtyLabel = new System.Windows.Forms.Label();
             this.tbLectureQty = new System.Windows.Forms.TextBox();
             this.lectureQtyLabel = new System.Windows.Forms.Label();
-            this.labelAllCred = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +80,9 @@
             this.teacherChoosingComboBox.Name = "teacherChoosingComboBox";
             this.teacherChoosingComboBox.Size = new System.Drawing.Size(436, 30);
             this.teacherChoosingComboBox.TabIndex = 0;
+            this.teacherChoosingComboBox.SelectionChangeCommitted += new System.EventHandler(this.teacherChoosingComboBox_SelectionChangeCommitted);
+            this.teacherChoosingComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.teacherChoosingComboBox_Validating);
+            this.teacherChoosingComboBox.Validated += new System.EventHandler(this.teacherChoosingComboBox_Validated);
             // 
             // groupBox1
             // 
@@ -223,6 +226,15 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Кредиты дисциплины";
+            // 
+            // labelAllCred
+            // 
+            this.labelAllCred.AutoSize = true;
+            this.labelAllCred.Location = new System.Drawing.Point(459, 390);
+            this.labelAllCred.Name = "labelAllCred";
+            this.labelAllCred.Size = new System.Drawing.Size(120, 22);
+            this.labelAllCred.TabIndex = 23;
+            this.labelAllCred.Text = "Placeholder";
             // 
             // tbSupervCred
             // 
@@ -422,15 +434,6 @@
             this.lectureQtyLabel.Size = new System.Drawing.Size(80, 22);
             this.lectureQtyLabel.TabIndex = 0;
             this.lectureQtyLabel.Text = "Лекции:";
-            // 
-            // labelAllCred
-            // 
-            this.labelAllCred.AutoSize = true;
-            this.labelAllCred.Location = new System.Drawing.Point(459, 390);
-            this.labelAllCred.Name = "labelAllCred";
-            this.labelAllCred.Size = new System.Drawing.Size(120, 22);
-            this.labelAllCred.TabIndex = 23;
-            this.labelAllCred.Text = "Placeholder";
             // 
             // errorProvider1
             // 

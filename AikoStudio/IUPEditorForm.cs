@@ -12,9 +12,15 @@ namespace AikoStudio
 {
     public partial class IUPEditorForm : Form
     {
-        AikoDbEntities context;
-        AddIUPItem iupParams;
-        Form1 parent;
+        private AikoDbEntities context;
+        private AddIUPItem iupParams;
+        private Form1 parent;
+
+        private decimal oldLectureCredits;
+        private decimal oldSeminarCredits;
+        private decimal oldLaboratoryCredits;
+        private decimal oldOtherCredits;
+
         public IUPEditorForm(Form1 parent, AddIUPItem iupParams)
         {
             InitializeComponent();
@@ -27,10 +33,6 @@ namespace AikoStudio
         {
             if (iupParams == null)
                 return;
-
-            var teachers = from t in context.Teachers
-                           orderby t.Id
-                           select t;
 
             teacherChoosingComboBox.Items.Clear();
             SetTeacherFioComboBoxDataSource();
@@ -46,8 +48,9 @@ namespace AikoStudio
                                        parent.cache.Rows[iupParams.RowIndex].ItemArray[12].ToString() + "/" +
                                        parent.cache.Rows[iupParams.RowIndex].ItemArray[13].ToString();
 
-            calculateAllCredits();
+            //SumUpAllCredits();
         }
+
 
         private void SetTeacherFioComboBoxDataSource()
         {
@@ -65,10 +68,7 @@ namespace AikoStudio
             }
             );
 
-            DataRow row = table.NewRow();
-            row["TeacherId"] = 0;
-            row["TeacherFIODisplayName"] = "<Не выбрано>";
-            table.Rows.Add(row);
+            DataRow row;
             foreach (var element in from t in context.Teachers
                                     orderby t.Id
                                     select t)
@@ -82,12 +82,15 @@ namespace AikoStudio
             this.teacherChoosingComboBox.DataSource = table;
             this.teacherChoosingComboBox.ValueMember = table.Columns["TeacherId"].ColumnName;
             this.teacherChoosingComboBox.DisplayMember = table.Columns["TeacherFIODisplayName"].ColumnName;
+            this.teacherChoosingComboBox.SelectedItem = null;
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
             int GroupSubjectId = (int)this.parent.cache.Rows[iupParams.RowIndex].ItemArray[1];
             int TeacherId = (int)this.teacherChoosingComboBox.SelectedValue;
+            Curriculum existed = context.Curriculums.SingleOrDefault(c => c.GroupSubjectId == GroupSubjectId && c.TeacherId == TeacherId);
+
             decimal lectureCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbLectureQty.Text) ? "0" : tbLectureQty.Text);
             decimal seminarCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbSeminarQty.Text) ? "0" : tbSeminarQty.Text);
             decimal laborCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbLabQty.Text) ? "0" : tbLabQty.Text);
@@ -98,30 +101,73 @@ namespace AikoStudio
             decimal researchCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbResearchCred.Text) ? "0" : tbResearchCred.Text);
             decimal memberCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbMemberCred.Text) ? "0" : tbMemberCred.Text);
             decimal supervCredits = decimal.Parse(string.IsNullOrWhiteSpace(tbSupervCred.Text) ? "0" : tbSupervCred.Text);
-            //decimal publicationCredits = context.Teachers.Find(TeacherId).Publications;
 
-            context.Curriculums.Add(new Curriculum()
+            decimal cacheLectures = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[14];
+            decimal cacheSeminars = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[15];
+            decimal cacheLabors = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[16];
+            decimal cacheOthers = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
+
+            Subject subj = context.GroupSubjects.Find(GroupSubjectId).Subject;
+            decimal residual = cacheLectures + oldLectureCredits - lectureCredits;
+            parent.cache.Rows[iupParams.RowIndex][14] = residual;
+            parent.dataGridView1.Rows[iupParams.RowIndex].Cells[10].Value = (decimal)residual;
+            subj.LectureCreditQty = residual;
+            
+            residual = cacheSeminars + oldSeminarCredits - seminarCredits;
+            parent.cache.Rows[iupParams.RowIndex][15] = residual;
+            parent.dataGridView1.Rows[iupParams.RowIndex].Cells[11].Value = (decimal)residual;
+            subj.SeminarCreditQty = residual;
+            
+            residual = cacheLabors + oldLaboratoryCredits - laborCredits;
+            parent.cache.Rows[iupParams.RowIndex][16] = residual;
+            parent.dataGridView1.Rows[iupParams.RowIndex].Cells[12].Value = (decimal)residual;
+            subj.LaboratoryCreditQty = residual;
+            
+            residual = cacheOthers + oldOtherCredits - educCredits - pedagCredits - gradCredits - industCredits - researchCredits - memberCredits - supervCredits;
+            if (residual < 0)
+                this.errorProvider1.SetError(addButton, "Значение введенных кредитов превышает максимальное значение дополнительных кредитов");
+            subj.OtherCreditQty = residual;
+
+            context.Entry(subj).State = System.Data.Entity.EntityState.Modified;
+
+            if (existed == null)
             {
-                GroupSubjectId = GroupSubjectId,
-                TeacherId = TeacherId,
-                LectureCredits = lectureCredits,
-                SeminarCredits = seminarCredits,
-                LaboratoryCredits = laborCredits,
-                EducationalPractice = educCredits,
-                PedagogicalPractice = pedagCredits,
-                UndergraduatePractice = gradCredits,
-                IndustrialPractice = industCredits,
-                ResearchPractice = researchCredits,
-                СommissionMembership = memberCredits,
-                SupervisoryWork = supervCredits
-                //PublicationCredits = publicationCredits
-            });
+                context.Curriculums.Add(new Curriculum()
+                {
+                    GroupSubjectId = GroupSubjectId,
+                    TeacherId = TeacherId,
+                    LectureCredits = lectureCredits,
+                    SeminarCredits = seminarCredits,
+                    LaboratoryCredits = laborCredits,
+                    EducationalPractice = educCredits,
+                    PedagogicalPractice = pedagCredits,
+                    UndergraduatePractice = gradCredits,
+                    IndustrialPractice = industCredits,
+                    ResearchPractice = researchCredits,
+                    СommissionMembership = memberCredits,
+                    SupervisoryWork = supervCredits
+                });
+            }                
+            else
+            {
+                existed.LectureCredits = lectureCredits;
+                existed.SeminarCredits = seminarCredits;
+                existed.LaboratoryCredits = laborCredits;
+                existed.EducationalPractice = educCredits;
+                existed.PedagogicalPractice = pedagCredits;
+                existed.UndergraduatePractice = gradCredits;
+                existed.IndustrialPractice = industCredits;
+                existed.ResearchPractice = researchCredits;
+                existed.СommissionMembership = memberCredits;
+                existed.SupervisoryWork = supervCredits;
+            }
 
             context.SaveChanges();
+            parent.dataGridView1.Update();
             this.Close();
         }
 
-        private void calculateAllCredits()
+        private void SumUpAllCredits()
         {
             decimal tbLectureQtyDecimal;
             decimal.TryParse(string.IsNullOrEmpty(tbLectureQty.Text) ? "0" : tbLectureQty.Text, out tbLectureQtyDecimal);
@@ -170,7 +216,7 @@ namespace AikoStudio
             }
 
             var lectures = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[14];
-            if (result > lectures || result < 0)
+            if (result > lectures + oldLectureCredits || result < 0)
             {
                 e.Cancel = true;
                 tbLectureQty.Select(0, tbLectureQty.Text.Length);
@@ -181,7 +227,7 @@ namespace AikoStudio
         private void tbLectureQty_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbLectureQty, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbSeminarQty_Validating(object sender, CancelEventArgs e)
@@ -195,7 +241,7 @@ namespace AikoStudio
             }
 
             var seminars = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[15];
-            if (result > seminars || result < 0)
+            if (result > seminars + oldSeminarCredits || result < 0)
             {
                 e.Cancel = true;
                 tbSeminarQty.Select(0, tbSeminarQty.Text.Length);
@@ -206,7 +252,7 @@ namespace AikoStudio
         private void tbSeminarQty_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbSeminarQty, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbLabQty_Validating(object sender, CancelEventArgs e)
@@ -220,7 +266,7 @@ namespace AikoStudio
             }
 
             var labs = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[16];
-            if (result > labs || result < 0)
+            if (result > labs + oldLaboratoryCredits || result < 0)
             {
                 e.Cancel = true;
                 tbLabQty.Select(0, tbLabQty.Text.Length);
@@ -231,7 +277,7 @@ namespace AikoStudio
         private void tbLabQty_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbLabQty, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbEducCred_Validating(object sender, CancelEventArgs e)
@@ -245,7 +291,7 @@ namespace AikoStudio
             }
 
             var educCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > educCredits || result < 0)
+            if (result > educCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbEducCred.Select(0, tbEducCred.Text.Length);
@@ -256,7 +302,7 @@ namespace AikoStudio
         private void tbEducCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbEducCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbPedagCred_Validating(object sender, CancelEventArgs e)
@@ -270,7 +316,7 @@ namespace AikoStudio
             }
 
             var pedagCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > pedagCredits || result < 0)
+            if (result > pedagCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbPedagCred.Select(0, tbPedagCred.Text.Length);
@@ -281,7 +327,7 @@ namespace AikoStudio
         private void tbPedagCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbPedagCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbGradCred_Validating(object sender, CancelEventArgs e)
@@ -295,7 +341,7 @@ namespace AikoStudio
             }
 
             var gradCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > gradCredits || result < 0)
+            if (result > gradCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbGradCred.Select(0, tbGradCred.Text.Length);
@@ -306,7 +352,7 @@ namespace AikoStudio
         private void tbGradCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbGradCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbIndustCred_Validating(object sender, CancelEventArgs e)
@@ -320,7 +366,7 @@ namespace AikoStudio
             }
 
             var industCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > industCredits || result < 0)
+            if (result > industCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbIndustCred.Select(0, tbIndustCred.Text.Length);
@@ -331,7 +377,7 @@ namespace AikoStudio
         private void tbIndustCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbIndustCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbResearchCred_Validating(object sender, CancelEventArgs e)
@@ -345,7 +391,7 @@ namespace AikoStudio
             }
 
             var researchCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > researchCredits || result < 0)
+            if (result > researchCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbResearchCred.Select(0, tbResearchCred.Text.Length);
@@ -356,7 +402,7 @@ namespace AikoStudio
         private void tbResearchCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbResearchCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbMemberCred_Validating(object sender, CancelEventArgs e)
@@ -370,7 +416,7 @@ namespace AikoStudio
             }
 
             var memberCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > memberCredits || result < 0)
+            if (result > memberCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbMemberCred.Select(0, tbMemberCred.Text.Length);
@@ -381,7 +427,7 @@ namespace AikoStudio
         private void tbMemberCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbMemberCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
         }
 
         private void tbSupervCred_Validating(object sender, CancelEventArgs e)
@@ -395,7 +441,7 @@ namespace AikoStudio
             }
 
             var supervCredits = (decimal)parent.cache.Rows[iupParams.RowIndex].ItemArray[17];
-            if (result > supervCredits || result < 0)
+            if (result > supervCredits + oldOtherCredits || result < 0)
             {
                 e.Cancel = true;
                 tbSupervCred.Select(0, tbSupervCred.Text.Length);
@@ -406,7 +452,70 @@ namespace AikoStudio
         private void tbSupervCred_Validated(object sender, EventArgs e)
         {
             this.errorProvider1.SetError(tbSupervCred, "");
-            calculateAllCredits();
+            SumUpAllCredits();
+        }
+
+        private void teacherChoosingComboBox_Validating(object sender, CancelEventArgs e)
+        {
+            int? TeacherId = (int?)this.teacherChoosingComboBox.SelectedValue;
+            if (TeacherId == null) return;
+            if (TeacherId <= 0)
+            {
+                e.Cancel = true;
+                this.teacherChoosingComboBox.Select(0, this.teacherChoosingComboBox.Text.Length);
+                this.errorProvider1.SetError(teacherChoosingComboBox, "Значение не выбрано.");
+            }
+        }
+
+        private void teacherChoosingComboBox_Validated(object sender, EventArgs e)
+        {
+            this.errorProvider1.SetError(teacherChoosingComboBox, "");
+        }
+
+        private void teacherChoosingComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            int GroupSubjectId = (int)this.parent.cache.Rows[iupParams.RowIndex].ItemArray[1];
+            int TeacherId = (int)this.teacherChoosingComboBox.SelectedValue;
+            if (TeacherId <= 0) return;
+
+            tbLectureQty.Clear();
+            tbSeminarQty.Clear();
+            tbLabQty.Clear();
+            tbEducCred.Clear();
+            tbPedagCred.Clear();
+            tbGradCred.Clear();
+            tbIndustCred.Clear();
+            tbResearchCred.Clear();
+            tbMemberCred.Clear();
+            tbSupervCred.Clear();
+            labelAllCred.Text = string.Empty;
+
+            oldLectureCredits = 0;
+            oldSeminarCredits = 0;
+            oldLaboratoryCredits = 0;
+            oldOtherCredits = 0;
+
+            Curriculum existed = context.Curriculums.SingleOrDefault(c => c.GroupSubjectId == GroupSubjectId && c.TeacherId == TeacherId);
+            if (existed != null)
+            {
+                oldLectureCredits = existed.LectureCredits;
+                oldSeminarCredits = existed.SeminarCredits;
+                oldLaboratoryCredits = existed.LaboratoryCredits;
+                oldOtherCredits = existed.EducationalPractice + existed.PedagogicalPractice + existed.UndergraduatePractice +
+                                  existed.IndustrialPractice + existed.ResearchPractice + existed.СommissionMembership + existed.SupervisoryWork;
+
+                tbLectureQty.Text = existed.LectureCredits.ToString();
+                tbSeminarQty.Text = existed.SeminarCredits.ToString();
+                tbLabQty.Text = existed.LaboratoryCredits.ToString();
+                tbEducCred.Text = existed.EducationalPractice.ToString();
+                tbPedagCred.Text = existed.PedagogicalPractice.ToString();
+                tbGradCred.Text = existed.UndergraduatePractice.ToString();
+                tbIndustCred.Text = existed.IndustrialPractice.ToString();
+                tbResearchCred.Text = existed.ResearchPractice.ToString();
+                tbMemberCred.Text = existed.СommissionMembership.ToString();
+                tbSupervCred.Text = existed.SupervisoryWork.ToString();
+                SumUpAllCredits();
+            }
         }
     }
 }

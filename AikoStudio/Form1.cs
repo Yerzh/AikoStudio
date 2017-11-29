@@ -588,7 +588,7 @@ namespace AikoStudio
             }
             else if (e.ClickedItem == tsAddMenuItem)
             {
-                IUPEditorForm iup = new IUPEditorForm(this, new AddIUPItem() { RowIndex = selectedRowIndex, ColIndex = selectedColIndex });
+                IUPEditorForm iup = new IUPEditorForm(this, new AddIUPItem() { RowIndex = selectedRowIndex });
                 iup.StartPosition = FormStartPosition.CenterScreen;
                 iup.ShowDialog();
             }
@@ -598,6 +598,5 @@ namespace AikoStudio
     public class AddIUPItem
     {
         public int RowIndex { get; set; }
-        public int ColIndex { get; set; }
     }
 }
