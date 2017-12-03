@@ -104,7 +104,7 @@
             this.fioLabel.Name = "fioLabel";
             this.fioLabel.Size = new System.Drawing.Size(50, 22);
             this.fioLabel.TabIndex = 1;
-            this.fioLabel.Text = "Фио:";
+            this.fioLabel.Text = "ФИО:";
             // 
             // groupBox2
             // 

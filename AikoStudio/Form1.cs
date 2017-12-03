@@ -569,26 +569,15 @@ namespace AikoStudio
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             DataGridViewCell selectedCell = dataGridView1.Rows[selectedRowIndex].Cells[selectedColIndex];
-            if (e.ClickedItem == tsCopyMenuItem)
-                Clipboard.SetText(selectedCell.FormattedValue.ToString());                
-            else if (e.ClickedItem == tsPasteMenuItem)
-            {
-                if (selectedCell.OwningColumn.GetType() == typeof(DataGridViewComboBoxColumn))
-                    return;
-
-                selectedCell.Value = Clipboard.GetText();
-            }
-            else if (e.ClickedItem == tsCutMenuItem)
-            {
-                if (selectedCell.OwningColumn.GetType() == typeof(DataGridViewComboBoxColumn))
-                    return;
-
-                Clipboard.SetText(selectedCell.Value.ToString());
-                selectedCell.Value = null;
-            }
-            else if (e.ClickedItem == tsAddMenuItem)
+            if (e.ClickedItem == tsAddMenuItem)
             {
                 IUPEditorForm iup = new IUPEditorForm(this, new AddIUPItem() { RowIndex = selectedRowIndex });
+                iup.StartPosition = FormStartPosition.CenterScreen;
+                iup.ShowDialog();
+            }
+            else if (e.ClickedItem == tsLookMenuItem)
+            {
+                IUPLookForm iup = new IUPLookForm();
                 iup.StartPosition = FormStartPosition.CenterScreen;
                 iup.ShowDialog();
             }
