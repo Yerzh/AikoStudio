@@ -160,6 +160,10 @@ namespace AikoStudio
                 existed.ResearchPractice = researchCredits;
                 existed.СommissionMembership = memberCredits;
                 existed.SupervisoryWork = supervCredits;
+
+                decimal all = SumUpAllCredits();
+                if (all == 0)
+                    context.Entry(existed).State = System.Data.Entity.EntityState.Deleted;
             }
 
             context.SaveChanges();
@@ -167,7 +171,7 @@ namespace AikoStudio
             this.Close();
         }
 
-        private void SumUpAllCredits()
+        private decimal SumUpAllCredits()
         {
             decimal tbLectureQtyDecimal;
             decimal.TryParse(string.IsNullOrEmpty(tbLectureQty.Text) ? "0" : tbLectureQty.Text, out tbLectureQtyDecimal);
@@ -199,10 +203,12 @@ namespace AikoStudio
             decimal tbSupervCredDecimal;
             decimal.TryParse(string.IsNullOrEmpty(tbSupervCred.Text) ? "0" : tbSupervCred.Text, out tbSupervCredDecimal);
 
-            labelAllCred.Text = (tbLectureQtyDecimal + tbSeminarQtyDecimal + tbLabQtyDecimal +
-                                 tbEducCredDecimal + tbPedagCredDecimal + tbGradCredDecimal +
-                                 tbIndustCredDecimal + tbResearchCredDecimal +
-                                 tbMemberCredDecimal + tbSupervCredDecimal).ToString();
+            decimal all = tbLectureQtyDecimal + tbSeminarQtyDecimal + tbLabQtyDecimal +
+                          tbEducCredDecimal + tbPedagCredDecimal + tbGradCredDecimal +
+                          tbIndustCredDecimal + tbResearchCredDecimal +
+                          tbMemberCredDecimal + tbSupervCredDecimal;
+            labelAllCred.Text = all.ToString();
+            return all;
         }
 
         private void tbLectureQty_Validating(object sender, CancelEventArgs e)

@@ -100,7 +100,13 @@ namespace AikoStudio
                           Лекции = c.LectureCredits,
                           Семинарские = c.SeminarCredits,
                           Лабораторные = c.LaboratoryCredits,
-
+                          Учеб = c.EducationalPractice,
+                          Педагог = c.PedagogicalPractice,
+                          Преддиплом = c.UndergraduatePractice,
+                          Производ = c.IndustrialPractice,
+                          Исследов = c.ResearchPractice,
+                          ЧленыКоммиссии = c.СommissionMembership,
+                          Выпуск = c.SupervisoryWork,
                           Всего = c.TotalCredits
                       };
 
